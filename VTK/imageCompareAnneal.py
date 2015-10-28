@@ -26,7 +26,7 @@ cylinderActor.GetProperty().SetColor(0,0,0)
 # window.
 ren = vtk.vtkRenderer()
 renWin = vtk.vtkRenderWindow()
-#renWin.SetOffScreenRendering(True)
+renWin.SetOffScreenRendering(True)
 renWin.AddRenderer(ren)
  
  # Add the actors to the renderer, set the background and size
@@ -90,9 +90,25 @@ class AnnealingRegistration(Annealer):
 		return e
 
 if __name__ == '__main__':
-	for idx in range(0,1000)
-	init_state = [0,0,0]
-	tsp = AnnealingRegistration(init_state)
-	tsp.copy_strategy = "slice"  
-	state, e = tsp.anneal()
-	print(state)
+	
+	successes = 0;
+	failiures = 0;
+
+	for idx in range(0,10000) :
+		init_state = [random.random()*360-180,random.random()*360-180,random.random()*360-180]
+		tsp = AnnealingRegistration(init_state)
+		tsp.copy_strategy = "slice"  
+		state, e = tsp.anneal()
+		if(abs(init_state[0]-state[0]) < 1 and
+		   abs(init_state[1]-state[1]) < 1 and
+		   abs(init_state[2]-state[2]) < 1):
+			successes += 1
+		else :
+			failiures += 1
+		print(state)
+
+	fname = "tests.txt"
+	text = "failiures: "+str(failiures)+" successes: "+str(successes)
+	print("Saving state to: %s" % fname)
+	with open(fname, "w") as fh:
+		pickle.dump(text, fh)
