@@ -6,7 +6,9 @@
 import vtk
 from vtk.util.numpy_support import vtk_to_numpy
 from math import pi,atan2
+import random
 import amoebaAnnealed
+import amoeba
 
 filename = "suzanne.stl"
  
@@ -30,7 +32,7 @@ cylinderActor.GetProperty().SetColor(0,0,0)
 # nature of the events.
 ren = vtk.vtkRenderer()
 renWin = vtk.vtkRenderWindow()
-renWin.SetOffScreenRendering(1)
+#renWin.SetOffScreenRendering(1)
 renWin.AddRenderer(ren)
 iren = vtk.vtkRenderWindowInteractor()
 iren.SetRenderWindow(renWin)
@@ -39,9 +41,12 @@ iren.SetRenderWindow(renWin)
 ren.AddActor(cylinderActor)
 cylinderActor.SetPosition(0,0,0)
 cylinderActor.SetOrientation(190,50,10)
-cylinderActor.SetPosition(10,30,50)
+cylinderActor.SetPosition(0,0,0)
 ren.SetBackground(1, 1, 1)
-renWin.SetSize(640*2, 480*2)
+
+windowScale = 1;
+
+renWin.SetSize(640, 480)
  
 # This allows the interactor to initalize itself. It has to be
 # called before an event loop.
@@ -125,6 +130,7 @@ original_im.SetInput(renWin)
 original_im.Update()
 original_image = original_im.GetOutput()
 
+print "Actual orientation"
 print cylinderActor.GetOrientation();
 
 cylinderActor.SetOrientation(0,0.0,0.0)
@@ -144,22 +150,72 @@ def afunc(var,data=None):
 	idiff.SetInputConnection(new_im.GetOutputPort())
 	idiff.SetImage(original_image)
 	idiff.Update()
-	err = renWin.GetSize()[0]*renWin.GetSize()[1] - idiff.GetThresholdedError()
+	err = 0 - idiff.GetThresholdedError()
 	return err
 
+randomStarts = []
+
+for idx1 in range(0,3) :
+	randX = random.random()*360-180
+	for idx2 in range(0,4) :
+		randY = random.random()*360-180;
+		for idx3 in range(0,4) :
+			randZ = random.random()*360-180;
+			randomStarts.append([randX,randY,randZ])
+
+error = -100000000;
+bestStart = [0,0,0];
+
+rotationDist = 180;
+translationDist = 10;
+
+distance = [0]*6;
+distance[0:2] = [rotationDist]*3
+distance[3:5] = [translationDist]*3
+
+for startOrientation in randomStarts :
+	amoebaAnnealed.amoeba([startOrientation[0],
+				   startOrientation[1],
+				   startOrientation[2],
+				   0,0,0],
+				   distance,afunc,itmax=5)
+
+	newError = afunc( [cylinderActor.GetOrientation()[0],
+					   cylinderActor.GetOrientation()[1],
+					   cylinderActor.GetOrientation()[2],
+					   cylinderActor.GetPosition()[0],
+					   cylinderActor.GetPosition()[1],
+					   cylinderActor.GetPosition()[2]])
+
+	print newError
+
+	if newError>error :
+		error = newError
+		bestStart = cylinderActor.GetOrientation()
+		print "Best Orientation: " + str(bestStart)
+
+cylinderActor.SetOrientation(bestStart)
+
 iterations = 3
-base = 50
+rotationDist = 180;
+translationDist = 20;
 
-for idx in range(0,iterations) :
+distance = [0]*6;
 
+renWin.SetSize(640, 480)
+
+for idx in range(0,iterations-1) :
+	distance[0:2] = [rotationDist/(2.0**idx)]*3
+	distance[3:5]=[translationDist/(2.0**idx)]*3
 	amoebaAnnealed.amoeba([cylinderActor.GetOrientation()[0],
 						   cylinderActor.GetOrientation()[1],
 						   cylinderActor.GetOrientation()[2],
 						   cylinderActor.GetPosition()[0],
 						   cylinderActor.GetPosition()[1],
 						   cylinderActor.GetPosition()[2]],
-						   [base/(2.0**idx)]*6,afunc)
+						   distance,afunc)
 
+	print "Orientation after " + str(idx+1) + " iterations:"
 	print cylinderActor.GetOrientation();
 
 print ren.GetActiveCamera().GetOrientation();

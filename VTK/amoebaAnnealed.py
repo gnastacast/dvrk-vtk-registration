@@ -144,7 +144,7 @@ def amoeba(var,scale,func,ftolerance=1.e-4,xtolerance=1.e-4,itmax=500,data=None)
             '''
             pnew = [0.0]*nvar
             for i in range(nvar):
-                pnew[i] = pavg[i] + (random.random()-.5)*abs(simplex[ssworst][i]-simplex[ssbest][i])
+                pnew[i] = simplex[ssbest][i] + (random.random()-.5)*abs(simplex[ssworst][i]-simplex[ssbest][i])
             fnew = func(pnew,data=data)
         elif fnew >= fvalue[ssbest]:
             # the new vertex is better than the best so expand
