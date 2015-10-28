@@ -63,6 +63,12 @@ def amoeba(var,scale,func,ftolerance=1.e-4,xtolerance=1.e-4,itmax=500,data=None)
                                               convergence.
                1.2 2005-April-03 T. Metcalf - When contracting, contract the whole
                                               simplex.
+               1.3 2105-Oct-31 N. Zevallos  - Changed from contraction to annealing
+                                              method as proposed in H. Lensch, W.
+                                              Heidrich, H. Seidel, "A Silhouette Based
+                                              Algorithm for Texture Registration and
+                                              Stitching," Graphical Models Vol. 63 Iss.
+                                              4 (2001), pp. 245-262
        '''
 
     nvar = len(var)       # number of variables in the minimization
