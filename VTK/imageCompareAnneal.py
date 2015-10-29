@@ -1,4 +1,5 @@
 from __future__ import print_function
+from __future__ import division
 import math
 import random
 from simanneal import Annealer
@@ -28,23 +29,26 @@ ren = vtk.vtkRenderer()
 renWin = vtk.vtkRenderWindow()
 renWin.SetOffScreenRendering(True)
 renWin.AddRenderer(ren)
- 
+
+# We'll zoom in a little by accessing the camera and invoking a "Zoom"
+# method on it.
+ren.ResetCamera()
+ren.GetActiveCamera().SetPosition(0,0,200)
+ren.GetActiveCamera().SetFocalPoint(0,0,0)
+
  # Add the actors to the renderer, set the background and size
 ren.AddActor(cylinderActor)
 cylinderActor.SetPosition(0,0,0)
-cylinderActor.SetOrientation(190,50,10)
+cylinderActor.SetOrientation(170,50,10)
+actual_orientation = cylinderActor.GetOrientation();
+print(actual_orientation)
 ren.SetBackground(1, 1, 1)
 
 windowScale = 1;
 
-renWin.SetSize(640/2, 480/2)
- 
-# We'll zoom in a little by accessing the camera and invoking a "Zoom"
-# method on it.
-ren.GetActiveCamera().SetPosition(0,0,200)
+renWin.SetSize(640, 480)
 
 renWin.Render()
-#iren.Start()
 
 # Turn render window into image
 original_im = vtk.vtkWindowToImageFilter()
@@ -52,8 +56,11 @@ original_im.SetInput(renWin)
 original_im.Update()
 original_image = original_im.GetOutput()
 
+
+
 print("Actual orientation")
 print(cylinderActor.GetOrientation())
+
 
 class AnnealingRegistration(Annealer):
 	
@@ -67,9 +74,8 @@ class AnnealingRegistration(Annealer):
 
 	#Swaps two cities in the route
 	def move(self):
-		dist = self.T
 		for idx in range(len(self.state)) :
-			self.state[idx] += (random.random()-.5)*dist
+			self.state[idx] += (random.random()-.5)*self.T
 			self.state[idx] = (self.state[idx]+180)%360 -180
 	#Calculates the length of the route."""
 	def energy(self):
@@ -94,21 +100,33 @@ if __name__ == '__main__':
 	successes = 0;
 	failiures = 0;
 
-	for idx in range(0,10000) :
+	txtString = '';
+
+	for idx in range(0,100) :
+		print('trial number ' + str(idx+1))
 		init_state = [random.random()*360-180,random.random()*360-180,random.random()*360-180]
+		print("initial state :" + str(init_state))
 		tsp = AnnealingRegistration(init_state)
 		tsp.copy_strategy = "slice"  
 		state, e = tsp.anneal()
-		if(abs(init_state[0]-state[0]) < 1 and
-		   abs(init_state[1]-state[1]) < 1 and
-		   abs(init_state[2]-state[2]) < 1):
+		cylinderActor.SetOrientation(state[0],state[1],state[2])
+		estimated_orientation = cylinderActor.GetOrientation()
+		txtString+=str(estimated_orientation[0])+" "
+		txtString+=str(estimated_orientation[1])+" "
+		txtString+=str(estimated_orientation[2])+" "
+		txtString+="\n"
+		print("final state :  " + str(state))
+		if(abs(actual_orientation[0]-estimated_orientation[0]) < 1 and
+		   abs(actual_orientation[1]-estimated_orientation[1]) < 1 and
+		   abs(actual_orientation[2]-estimated_orientation[2]) < 1):
 			successes += 1
+			print("SUCCESS")
 		else :
 			failiures += 1
-		print(state)
+			print("FAILIURE")
 
 	fname = "tests.txt"
 	text = "failiures: "+str(failiures)+" successes: "+str(successes)
 	print("Saving state to: %s" % fname)
 	with open(fname, "w") as fh:
-		pickle.dump(text, fh)
+		fh.write(txtString)
