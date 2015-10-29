@@ -2,7 +2,7 @@
 
 M = dlmread('tests_80x60_5000.txt');
 
-figure1 = figure(1);
+figure1 = figure;
 axes1 = axes('Parent',figure1,'PlotBoxAspectRatio',[1 1 1]);
 xlim(axes1,[-180 180]);
 ylim(axes1,[-180 180]);
