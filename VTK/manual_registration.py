@@ -15,7 +15,7 @@ def register(stlPath, imagePath=None, camera=None):
 
 		Optional Input:
 		      imagePath = path to an image to register the STL again
-		      camera = camera being used
+		      camera = vtkCamera object to use for rendering
 
 		Output:
 		      actorMatrix (vtkMatrix4x4) = transform from camera to object
@@ -28,17 +28,12 @@ def register(stlPath, imagePath=None, camera=None):
 		Example:
 
 		   import manual_registration
-		   print manual_registration.register("suzanne.stl","suzanne.jpg")
+		   print manual_registration.register("suzanne.stl","suzanne.jpg",camera)
 
 		Version 1.0 2015-November-04 N. Zevallos
 	'''
 
 	global camStatic
-
-	#Setup static camera
-	camStatic.SetFocalPoint(0,0,0)
-	camStatic.SetPosition(0,0,200)
-	camStatic.SetViewUp(0,1,0)
 
 	# Read in STL file
 	reader = vtk.vtkSTLReader()
@@ -53,6 +48,12 @@ def register(stlPath, imagePath=None, camera=None):
 		camStatic.SetFocalPoint(camera.GetFocalPoint())
 		camStatic.SetPosition(camera.GetPosition())
 		camStatic.SetViewUp(camera.GetViewUp())
+
+	else :
+		#Setup default camera parameters
+		camStatic.SetFocalPoint(0,0,0)
+		camStatic.SetPosition(0,0,200)
+		camStatic.SetViewUp(0,1,0)
 
 	# Create render window and interactor
 	renWin = vtk.vtkRenderWindow()

@@ -54,17 +54,20 @@ def register(stlPath, startMatrix=None, imagePath=None, camera=None):
 	for i in range(numViews):
 		ren = vtk.vtkRenderer()
 		cam = vtk.vtkCamera()
+		
 		cam.SetFocalPoint(camStatic.GetFocalPoint()[0]+eyeDistance*(i-.5),
 						  camStatic.GetFocalPoint()[1],
 						  camStatic.GetFocalPoint()[2])
 		cam.SetPosition(camStatic.GetPosition()[0]+eyeDistance*(i-.5),
 						camStatic.GetPosition()[1],
 						camStatic.GetPosition()[2])
+		
 		renWin.AddRenderer(ren)
 		ren.SetActiveCamera(cam)
-		ren.SetViewport(i*(1/numViews),0,(i+1)*(1/numViews),1)
+		print([i*(1.0/numViews),0,(i+1)*(1.0/numViews),1])
+		ren.SetViewport(i*(1.0/numViews),0,(i+1)*(1.0/numViews),1)
 		ren.SetBackground(1,1,1)
-		renWin.SetOffScreenRendering(True)
+		#renWin.SetOffScreenRendering(True)
 		renWin.AddRenderer(ren)
 		ren.AddActor(mainActor)
 
@@ -72,7 +75,7 @@ def register(stlPath, startMatrix=None, imagePath=None, camera=None):
 	if imagePath != None :
 		original_image = loadImage(imagePath)
 		renWin.SetSize(original_image.GetDimensions())
-	else :
+	else :   
 		renWin.SetSize(640/2*numViews,480/2)
 		# Randomly place main actor
 		mainActor.SetPosition(random.random()*100-100,
@@ -87,6 +90,10 @@ def register(stlPath, startMatrix=None, imagePath=None, camera=None):
 		original_im.SetInput(renWin)
 		original_im.Update()
 		original_image = original_im.GetOutput()
+		writer = vtk.vtkPNGWriter()
+		writer.SetFileName("screenshot.png")
+		writer.SetInput(original_image)
+		writer.Write()
 
 	if startMatrix == None:
 		state = [0,0,0,0,0,0]
@@ -116,7 +123,6 @@ def loadImage(filename) :
 	return imageData
 
 class AnnealingRegistration(Annealer):
-
 	# pass extra data (for rendering and comparing) into the constructor
 	def __init__(self, state, actor, renderer, image):
 		self.actor = actor
