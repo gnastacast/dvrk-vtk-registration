@@ -3,24 +3,23 @@
 import vtk
 import random
 
+
 camStatic = vtk.vtkCamera()
-camStatic.SetFocalPoint(0,0,0)
-camStatic.SetPosition(0,0,200)
-camStatic.SetViewUp(0,1,0)
 
 # Performs manual registration of an STL file
-def register(stlPath="suzanne.stl", imagePath=None, camera=None):
+def register(stlPath, imagePath=None, camera=None):
 	''' Helper function for rough user registration of an .stl file
 
+		Input:
+			  stlPath = path to an STL file to register
+
 		Optional Input:
-		      stlPath = path to an STL file to register
 		      imagePath = path to an image to register the STL again
 		      camera = camera being used
 
 		Output:
 		      actorMatrix (vtkMatrix4x4) = transform from camera to object
 
-		- The default stlPath is "suzanne.stl"
 		- If no image path is specified the object will be rendered at a
 		  random orientation and position
 		- If no camera is specified the camera will be placed at (0,0,300)
@@ -33,7 +32,14 @@ def register(stlPath="suzanne.stl", imagePath=None, camera=None):
 
 		Version 1.0 2015-November-04 N. Zevallos
 	'''
+
 	global camStatic
+
+	#Setup static camera
+	camStatic.SetFocalPoint(0,0,0)
+	camStatic.SetPosition(0,0,200)
+	camStatic.SetViewUp(0,1,0)
+
 	# Read in STL file
 	reader = vtk.vtkSTLReader()
 	reader.SetFileName(stlPath)
@@ -73,14 +79,22 @@ def register(stlPath="suzanne.stl", imagePath=None, camera=None):
 	# Add the actor
 	ren.AddActor(mainActor)
 
+	# Create background renderer for static object
+	backgroundRen = vtk.vtkRenderer()
+	backgroundRen.SetLayer(0)
+	backgroundRen.InteractiveOff()
+	backgroundRen.SetBackground(1, 1, 1)
+	renWin.AddRenderer(backgroundRen)
+	
+	# Load in a PNG file onto background
+	if imagePath != None :
+		bgCamera, backgroundActor = loadImagePlane(imagePath)
+		# Setup camera
+		backgroundRen.AddActor(backgroundActor)
+		backgroundRen.SetActiveCamera(bgCamera)
+
 	# If there is no image provided, make one up
-	if imagePath == None :
-		# Create background renderer for static object
-		backgroundRen = vtk.vtkRenderer()
-		backgroundRen.SetLayer(0)
-		backgroundRen.InteractiveOff()
-		backgroundRen.SetBackground(1, 1, 1)
-		renWin.AddRenderer(backgroundRen)
+	else :
 		# Setup camera
 		backgroundRen.GetActiveCamera().SetFocalPoint(camStatic.GetFocalPoint())
 		backgroundRen.GetActiveCamera().SetPosition(camStatic.GetPosition())
@@ -118,6 +132,43 @@ def register(stlPath="suzanne.stl", imagePath=None, camera=None):
 
 	print(actorTransform.GetMatrix())
 
+
+def loadImagePlane(filename) :
+	''' Takes a path to a .png image as a string and
+		returns a plane textured with that image
+		and a camera for the background renderer
+	'''
+	imageData = vtk.vtkImageData()
+	pngReader = vtk.vtkPNGReader()
+	if(not(pngReader.CanReadFile(filename))):
+		print("Error reading .png file "+filename)
+		return
+	pngReader.SetFileName(filename)
+	pngReader.Update()
+	imageData = pngReader.GetOutput()
+	imageActor = vtk.vtkImageActor()
+	if vtk.VTK_MAJOR_VERSION <= 5 :
+	  imageActor.SetInput(imageData);
+	else :
+	  imageActor.SetInputData(imageData);
+
+	origin = imageData.GetOrigin()
+	spacing = imageData.GetSpacing()
+	extent = imageData.GetExtent()
+
+	camera = vtk.vtkCamera()
+	camera.ParallelProjectionOn()
+
+	xc = origin[0] + 0.5*(extent[0] + extent[1])*spacing[0]
+	yc = origin[1] + 0.5*(extent[2] + extent[3])*spacing[1]
+	yd = (extent[3] - extent[2] + 1)*spacing[1];
+	d = camera.GetDistance()
+	camera.SetParallelScale(0.5*yd)
+	camera.SetFocalPoint(xc,yc,0.0)
+	camera.SetPosition(xc,yc,d);
+
+	return camera, imageActor
+
 # Class defining a modified interactor style for manual registration
 class RegistrationInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
  
@@ -136,4 +187,4 @@ class RegistrationInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
 			inter.Render()
 
 if __name__ == "__main__":
-	register()
+	register('suzanne.stl')
