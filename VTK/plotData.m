@@ -1,35 +1,47 @@
-% About 4-5 seconds on average
+files = {'tests_80x60_5000.txt', ... % About 4-5 seconds on average
+         'tests_160x120_5000.txt', ... % Between 6-8 seconds
+         'tests_320x240_5000.txt', ... % Between 13-19 seconds
+         'tests_640x480_5000.txt'}; % Between 37-54 seconds
 
-M = dlmread('tests_80x60_5000.txt');
+%figure1 = figure();
+%axes1 = axes('Parent',figure1,'PlotBoxAspectRatio',[1 1 1]);
+%xlim(axes1,[-180 180]);
+%ylim(axes1,[-180 180]);
+%zlim(axes1,[-180 180]);
+%view(axes1,[136 26]);
+%hold(axes1,'all');
 
-figure1 = figure(1);
-axes1 = axes('Parent',figure1,'PlotBoxAspectRatio',[1 1 1]);
-xlim(axes1,[-180 180]);
-ylim(axes1,[-180 180]);
-zlim(axes1,[-180 180]);
-view(axes1,[136 26]);
-hold(axes1,'all');
+close('all')
+percentages = [];
 
-%scatter3(M(:,1),M(:,2),M(:,3),'b');
-std(M)
+for fileIdx = 1:length(files)
+    M = dlmread(files{fileIdx});
+    mad(M,1)
+    wrong = 0;
+    right = 0;
+    for idx = 1:length(M)
+        if (abs(M(idx,:)-[10 -130 -170])<[1 1 1])
+            right = right+1;
+        else
+            wrong = wrong+1;
+        end
+    end
+    figure();
+    subplot(3,1,1);
+    hist(M(:,1),1000);
+    title(files{fileIdx}(7:end-9))
+    subplot(3,1,2);
+    hist(M(:,2),1000);
+    subplot(3,1,3);
+    hist(M(:,3),1000);
+    
+    %scatter3(M(:,1),M(:,2),M(:,3))
+    percentages = [percentages,right/length(M)];
+end
 
-% Between 6-8 seconds
-
-M = dlmread('tests_160x120_5000.txt');
-hold('on')
-scatter3(M(:,1),M(:,2),M(:,3),'r');
-std(M)
-
-% Between 13-19 seconds
-
-M = dlmread('tests_320x240_5000.txt');
-
-scatter3(M(:,1),M(:,2),M(:,3),'g');
-std(M)
-
-% Between 37-54 seconds
-
-M = dlmread('tests_640x480_5000.txt');
-
-scatter3(M(:,1),M(:,2),M(:,3),'g');
-std(M)
+figure();
+bar(percentages)
+set(gca,'XTickLabel',{'80x60','160x120','320x240','640x480'})
+ylabel('Ratio within 1 degree')
+xlabel('Resolution')
+title('Results of registration from 100 random orientations')
