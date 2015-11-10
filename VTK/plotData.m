@@ -44,4 +44,8 @@ bar(percentages)
 set(gca,'XTickLabel',{'80x60','160x120','320x240','640x480'})
 ylabel('Ratio within 1 degree')
 xlabel('Resolution')
+<<<<<<< HEAD
 title('Results of registration from 100 random orientations')
+=======
+title('Results of registration from 100 random orientations')
+>>>>>>> f18e40d0116b5fb903da6c483b85c0afdf0d7c6f
