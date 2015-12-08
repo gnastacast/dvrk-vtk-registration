@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/devel/setup.sh

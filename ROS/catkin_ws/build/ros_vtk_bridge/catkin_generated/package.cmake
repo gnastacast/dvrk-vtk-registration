@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "ros_vtk_bridge")
+set(ros_vtk_bridge_MAINTAINER "biorobotics <biorobotics@todo.todo>")
+set(ros_vtk_bridge_DEPRECATED "")
+set(ros_vtk_bridge_VERSION "0.0.0")
+set(ros_vtk_bridge_BUILD_DEPENDS "joint_state_publisher" "roscpp" "rospy" "std_msgs")
+set(ros_vtk_bridge_RUN_DEPENDS "joint_state_publisher" "roscpp" "rospy" "std_msgs")
+set(ros_vtk_bridge_BUILDTOOL_DEPENDS "catkin")

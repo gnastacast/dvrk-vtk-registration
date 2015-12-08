@@ -1,0 +1,7 @@
+<launch>
+  <param name="robot_description" command="cat $(find vtk_bridge)/src/vtk_object.xml" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+  <node name="joint_slider" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="true"/>
+  </node>
+</launch>
