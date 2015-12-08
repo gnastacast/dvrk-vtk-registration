@@ -90,7 +90,7 @@ def amoeba(var,scale,func,ftolerance=1.e-4,xtolerance=1.e-4,itmax=500,data=None)
 
     iteration = 0
     alpha = 4
-    tO = 10
+    tO = scale[0]
     
     while 1:
         # find the index of the best and worst vertices in the simplex

@@ -4,9 +4,7 @@
 # creation.
  
 import vtk
-from vtk.util.numpy_support import vtk_to_numpy
 from amoeba_annealer import amoeba
-import os
 import time
 
 def iterateStates(filepath):
