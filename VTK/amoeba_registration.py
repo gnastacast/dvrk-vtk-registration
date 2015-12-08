@@ -55,7 +55,6 @@ def afunc(var,data=None):
 	cylinderActor.SetPosition(var[0],var[1],var[2])
 	cylinderActor.SetOrientation(var[3],var[4],var[5])
 	renWin.Render()
-	renWin.SetOffScreenRendering(True)
 
 	new_im = vtk.vtkWindowToImageFilter()
 	new_im.SetInput(renWin)
@@ -99,8 +98,8 @@ renWin.AddRenderer(ren)
  # Add the actors to the renderer, set the background and size
 ren.AddActor(cylinderActor)
 ren.SetBackground(1, 1, 1)
-renWin.SetSize(320, 240)
-#renWin.SetOffScreenRendering(True)
+renWin.SetSize(640, 640)
+renWin.SetOffScreenRendering(True)
 
 camera = vtk.vtkCamera()
 camera.SetFocalPoint(0,0,0)
@@ -110,10 +109,11 @@ camera.SetViewUp(0,1,0)
 ren.SetActiveCamera(camera)
 
 amoebaRegs = []
-annealedIterations = 50
+annealedIterations = 1
 text = ""
 
-for idx in range(0,len(manualRegs)) :
+#for idx in range(0,len(manualRegs)) :
+for idx in range(0,1) :
 
 	original_image = loadImage("registrationTests/bw_"+str(1000+idx)+".png")
 
