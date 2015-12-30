@@ -35,19 +35,22 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/biorobotics/Nico/daVinci/ROS/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build
+CMAKE_BINARY_DIR = /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
-	/usr/bin/cmake -i .
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -117,14 +120,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build/CMakeFiles /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build/vtk_bridge/CMakeFiles/progress.marks
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build/CMakeFiles 0
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build/CMakeFiles /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build/vtk_bridge/CMakeFiles/progress.marks
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/clean
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/clean
 .PHONY : clean
 
 # The main clean target
@@ -133,22 +136,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/preinstall
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/preinstall
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 vtk_bridge/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
 .PHONY : vtk_bridge/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -157,12 +160,12 @@ roscpp_generate_messages_cpp: vtk_bridge/CMakeFiles/roscpp_generate_messages_cpp
 
 # fast build rule for target.
 roscpp_generate_messages_cpp/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make vtk_bridge/CMakeFiles/roscpp_generate_messages_cpp.dir/build
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make vtk_bridge/CMakeFiles/roscpp_generate_messages_cpp.dir/build
 .PHONY : roscpp_generate_messages_cpp/fast
 
 # Convenience name for target.
 vtk_bridge/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
 .PHONY : vtk_bridge/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -171,12 +174,12 @@ roscpp_generate_messages_lisp: vtk_bridge/CMakeFiles/roscpp_generate_messages_li
 
 # fast build rule for target.
 roscpp_generate_messages_lisp/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make vtk_bridge/CMakeFiles/roscpp_generate_messages_lisp.dir/build
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make vtk_bridge/CMakeFiles/roscpp_generate_messages_lisp.dir/build
 .PHONY : roscpp_generate_messages_lisp/fast
 
 # Convenience name for target.
 vtk_bridge/CMakeFiles/roscpp_generate_messages_py.dir/rule:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/roscpp_generate_messages_py.dir/rule
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/roscpp_generate_messages_py.dir/rule
 .PHONY : vtk_bridge/CMakeFiles/roscpp_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -185,12 +188,12 @@ roscpp_generate_messages_py: vtk_bridge/CMakeFiles/roscpp_generate_messages_py.d
 
 # fast build rule for target.
 roscpp_generate_messages_py/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/roscpp_generate_messages_py.dir/build.make vtk_bridge/CMakeFiles/roscpp_generate_messages_py.dir/build
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/roscpp_generate_messages_py.dir/build.make vtk_bridge/CMakeFiles/roscpp_generate_messages_py.dir/build
 .PHONY : roscpp_generate_messages_py/fast
 
 # Convenience name for target.
 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
 .PHONY : vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -199,12 +202,12 @@ rosgraph_msgs_generate_messages_cpp: vtk_bridge/CMakeFiles/rosgraph_msgs_generat
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_cpp/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
 .PHONY : vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -213,12 +216,12 @@ rosgraph_msgs_generate_messages_lisp: vtk_bridge/CMakeFiles/rosgraph_msgs_genera
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_lisp/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
 .PHONY : vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -227,12 +230,12 @@ rosgraph_msgs_generate_messages_py: vtk_bridge/CMakeFiles/rosgraph_msgs_generate
 
 # fast build rule for target.
 rosgraph_msgs_generate_messages_py/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
 .PHONY : rosgraph_msgs_generate_messages_py/fast
 
 # Convenience name for target.
 vtk_bridge/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
 .PHONY : vtk_bridge/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -241,12 +244,12 @@ std_msgs_generate_messages_cpp: vtk_bridge/CMakeFiles/std_msgs_generate_messages
 
 # fast build rule for target.
 std_msgs_generate_messages_cpp/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make vtk_bridge/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make vtk_bridge/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
 .PHONY : std_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 vtk_bridge/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 .PHONY : vtk_bridge/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -255,12 +258,12 @@ std_msgs_generate_messages_lisp: vtk_bridge/CMakeFiles/std_msgs_generate_message
 
 # fast build rule for target.
 std_msgs_generate_messages_lisp/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make vtk_bridge/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make vtk_bridge/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
 .PHONY : std_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 vtk_bridge/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 vtk_bridge/CMakeFiles/std_msgs_generate_messages_py.dir/rule
 .PHONY : vtk_bridge/CMakeFiles/std_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -269,7 +272,7 @@ std_msgs_generate_messages_py: vtk_bridge/CMakeFiles/std_msgs_generate_messages_
 
 # fast build rule for target.
 std_msgs_generate_messages_py/fast:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/std_msgs_generate_messages_py.dir/build.make vtk_bridge/CMakeFiles/std_msgs_generate_messages_py.dir/build
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(MAKE) -f vtk_bridge/CMakeFiles/std_msgs_generate_messages_py.dir/build.make vtk_bridge/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
 
 # Help Target
@@ -305,6 +308,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -1,8 +1,8 @@
-# Install script for directory: /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/src/vtk_bridge
+# Install script for directory: /home/biorobotics/Nico/daVinci/ROS/catkin_ws/src/vtk_bridge
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  SET(CMAKE_INSTALL_PREFIX "/home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/install")
+  SET(CMAKE_INSTALL_PREFIX "/home/biorobotics/Nico/daVinci/ROS/catkin_ws/install")
 ENDIF(NOT DEFINED CMAKE_INSTALL_PREFIX)
 STRING(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,17 +33,17 @@ IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build/vtk_bridge/catkin_generated/installspace/vtk_bridge.pc")
+  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/biorobotics/Nico/daVinci/ROS/catkin_ws/build/vtk_bridge/catkin_generated/installspace/vtk_bridge.pc")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/vtk_bridge/cmake" TYPE FILE FILES
-    "/home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build/vtk_bridge/catkin_generated/installspace/vtk_bridgeConfig.cmake"
-    "/home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build/vtk_bridge/catkin_generated/installspace/vtk_bridgeConfig-version.cmake"
+    "/home/biorobotics/Nico/daVinci/ROS/catkin_ws/build/vtk_bridge/catkin_generated/installspace/vtk_bridgeConfig.cmake"
+    "/home/biorobotics/Nico/daVinci/ROS/catkin_ws/build/vtk_bridge/catkin_generated/installspace/vtk_bridgeConfig-version.cmake"
     )
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/vtk_bridge" TYPE FILE FILES "/home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/src/vtk_bridge/package.xml")
+  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/vtk_bridge" TYPE FILE FILES "/home/biorobotics/Nico/daVinci/ROS/catkin_ws/src/vtk_bridge/package.xml")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 

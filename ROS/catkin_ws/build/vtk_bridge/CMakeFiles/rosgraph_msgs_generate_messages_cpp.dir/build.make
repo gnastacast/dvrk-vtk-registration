@@ -31,11 +31,14 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/biorobotics/Nico/daVinci/ROS/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build
+CMAKE_BINARY_DIR = /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build
 
 # Utility rule file for rosgraph_msgs_generate_messages_cpp.
 
@@ -53,10 +56,10 @@ vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build: rosgraph_ms
 .PHONY : vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 
 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build/vtk_bridge && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/cmake_clean.cmake
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build/vtk_bridge && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/cmake_clean.cmake
 .PHONY : vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 
 vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/depend:
-	cd /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/src /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/src/vtk_bridge /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build/vtk_bridge /home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/build/vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/biorobotics/Nico/daVinci/ROS/catkin_ws/src /home/biorobotics/Nico/daVinci/ROS/catkin_ws/src/vtk_bridge /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build/vtk_bridge /home/biorobotics/Nico/daVinci/ROS/catkin_ws/build/vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : vtk_bridge/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/depend
 

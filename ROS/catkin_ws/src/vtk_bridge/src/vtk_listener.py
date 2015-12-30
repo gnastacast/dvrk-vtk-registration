@@ -2,45 +2,34 @@
 from __future__ import print_function
 
 import rospy
-from std_msgs.msg import String
 from sensor_msgs.msg import JointState
-import time
 
 import vtk
 from vtk.util.numpy_support import vtk_to_numpy
 
 import vtk
 
-oldPos = []
+# Global actor variable that will be passed between functions
+actor = vtk.vtkActor()
  
 class vtkTimerCallback():
     def __init__(self):
-        self.timer_count = 0
-
+        pass
     def execute(self,obj,event):
-        global oldPos
+        # We use a short sleep to update the rospy thread
+        rospy.sleep(.001)
         iren = obj
-        self.timer_count += 1
-        rospy.spinOnce()
-        if len(oldPos)>0:
-            print("SET POSE")
-            #cylinderActor.SetPosition(oldPos[0],oldPos[1],oldPos[2])            
-            iren.GetRenderWindow().Render()
+        iren.GetRenderWindow().Render()
 
-
-def callback(data):
-    global oldPos
+def subscribeCB(data):
     global actor
-    if(oldPos != data.position):
-        rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.position)
-        oldPos = data.position
-        actor.SetOrientation(oldPos[3],oldPos[4],oldPos[5])
-    
+    oldPos = data.position
+    actor.SetPosition(oldPos[0],oldPos[1],oldPos[2])
+    actor.SetOrientation(oldPos[3],oldPos[4],oldPos[5])
+    #rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.position)
+
 def vtk_listener():
-    global renWin
-    global oldPos
-    global cylinderActor
-    global ren
+    global actor
     # In ROS, nodes are uniquely named. If two nodes with the same
     # node are launched, the previous one is kicked off. The
     # anonymous=True flag means that rospy will choose a unique
@@ -48,7 +37,9 @@ def vtk_listener():
     # run simultaneously.
     rospy.init_node('vtk_listener', anonymous=True)
 
-    rospy.Subscriber("joint_states", JointState , callback)
+    # Initialize the subscriber
+    rospy.Subscriber("joint_states", JointState , subscribeCB)
+
     #Create a sphere
     sphereSource = vtk.vtkSphereSource()
     sphereSource.SetCenter(0.0, 0.0, 0.0)
@@ -57,14 +48,11 @@ def vtk_listener():
     #Create a mapper and actor
     mapper = vtk.vtkPolyDataMapper()
     mapper.SetInputConnection(sphereSource.GetOutputPort())
-    actor = vtk.vtkActor()
     actor.SetMapper(mapper)
-    prop = actor.GetProperty()
 
     # Setup a renderer, render window, and interactor
     renderer = vtk.vtkRenderer()
     renderWindow = vtk.vtkRenderWindow()
-    #renderWindow.SetWindowName("Test")
 
     renderWindow.AddRenderer(renderer);
     renderWindowInteractor = vtk.vtkRenderWindowInteractor()
@@ -82,14 +70,10 @@ def vtk_listener():
 
     # Sign up to receive TimerEvent
     cb = vtkTimerCallback()
-    cb.actor = actor
     renderWindowInteractor.AddObserver('TimerEvent', cb.execute)
-    timerId = renderWindowInteractor.CreateRepeatingTimer(100);
+    timerId = renderWindowInteractor.CreateRepeatingTimer(50);
     #start the interaction and timer
     renderWindowInteractor.Start()
-    # spin() simply keeps python from exiting until this node is stopped
     
-
-
 if __name__ == '__main__':
     vtk_listener()
