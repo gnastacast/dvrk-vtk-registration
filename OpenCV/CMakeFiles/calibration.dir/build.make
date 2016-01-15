@@ -31,11 +31,14 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/biorobotics/nicoDaVinci/OpenCV
+CMAKE_SOURCE_DIR = /home/biorobotics/Nico/daVinci/OpenCV
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/biorobotics/nicoDaVinci/OpenCV
+CMAKE_BINARY_DIR = /home/biorobotics/Nico/daVinci/OpenCV
 
 # Include any dependencies generated for this target.
 include CMakeFiles/calibration.dir/depend.make
@@ -48,17 +51,17 @@ include CMakeFiles/calibration.dir/flags.make
 
 CMakeFiles/calibration.dir/calibration.cpp.o: CMakeFiles/calibration.dir/flags.make
 CMakeFiles/calibration.dir/calibration.cpp.o: calibration.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/biorobotics/nicoDaVinci/OpenCV/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/calibration.dir/calibration.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/calibration.dir/calibration.cpp.o -c /home/biorobotics/nicoDaVinci/OpenCV/calibration.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/calibration.dir/calibration.cpp.o -c /home/biorobotics/Nico/daVinci/OpenCV/calibration.cpp
 
 CMakeFiles/calibration.dir/calibration.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/calibration.dir/calibration.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/biorobotics/nicoDaVinci/OpenCV/calibration.cpp > CMakeFiles/calibration.dir/calibration.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/biorobotics/Nico/daVinci/OpenCV/calibration.cpp > CMakeFiles/calibration.dir/calibration.cpp.i
 
 CMakeFiles/calibration.dir/calibration.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/calibration.dir/calibration.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/biorobotics/nicoDaVinci/OpenCV/calibration.cpp -o CMakeFiles/calibration.dir/calibration.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/biorobotics/Nico/daVinci/OpenCV/calibration.cpp -o CMakeFiles/calibration.dir/calibration.cpp.s
 
 CMakeFiles/calibration.dir/calibration.cpp.o.requires:
 .PHONY : CMakeFiles/calibration.dir/calibration.cpp.o.requires
@@ -127,6 +130,6 @@ CMakeFiles/calibration.dir/clean:
 .PHONY : CMakeFiles/calibration.dir/clean
 
 CMakeFiles/calibration.dir/depend:
-	cd /home/biorobotics/nicoDaVinci/OpenCV && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/biorobotics/nicoDaVinci/OpenCV /home/biorobotics/nicoDaVinci/OpenCV /home/biorobotics/nicoDaVinci/OpenCV /home/biorobotics/nicoDaVinci/OpenCV /home/biorobotics/nicoDaVinci/OpenCV/CMakeFiles/calibration.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/biorobotics/Nico/daVinci/OpenCV && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/biorobotics/Nico/daVinci/OpenCV /home/biorobotics/Nico/daVinci/OpenCV /home/biorobotics/Nico/daVinci/OpenCV /home/biorobotics/Nico/daVinci/OpenCV /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles/calibration.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/calibration.dir/depend
 

@@ -35,19 +35,22 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/biorobotics/nicoDaVinci/OpenCV
+CMAKE_SOURCE_DIR = /home/biorobotics/Nico/daVinci/OpenCV
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/biorobotics/nicoDaVinci/OpenCV
+CMAKE_BINARY_DIR = /home/biorobotics/Nico/daVinci/OpenCV
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
-	/usr/bin/cmake -i .
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -66,9 +69,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/nicoDaVinci/OpenCV/CMakeFiles /home/biorobotics/nicoDaVinci/OpenCV/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/nicoDaVinci/OpenCV/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -108,6 +111,32 @@ calibration/fast:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/build
 .PHONY : calibration/fast
 
+#=============================================================================
+# Target rules for targets named stereo_calib
+
+# Build rule for target.
+stereo_calib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stereo_calib
+.PHONY : stereo_calib
+
+# fast build rule for target.
+stereo_calib/fast:
+	$(MAKE) -f CMakeFiles/stereo_calib.dir/build.make CMakeFiles/stereo_calib.dir/build
+.PHONY : stereo_calib/fast
+
+#=============================================================================
+# Target rules for targets named stereocalibration
+
+# Build rule for target.
+stereocalibration: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stereocalibration
+.PHONY : stereocalibration
+
+# fast build rule for target.
+stereocalibration/fast:
+	$(MAKE) -f CMakeFiles/stereocalibration.dir/build.make CMakeFiles/stereocalibration.dir/build
+.PHONY : stereocalibration/fast
+
 calibration.o: calibration.cpp.o
 .PHONY : calibration.o
 
@@ -132,6 +161,54 @@ calibration.cpp.s:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/calibration.cpp.s
 .PHONY : calibration.cpp.s
 
+stereo_calib.o: stereo_calib.cpp.o
+.PHONY : stereo_calib.o
+
+# target to build an object file
+stereo_calib.cpp.o:
+	$(MAKE) -f CMakeFiles/stereo_calib.dir/build.make CMakeFiles/stereo_calib.dir/stereo_calib.cpp.o
+.PHONY : stereo_calib.cpp.o
+
+stereo_calib.i: stereo_calib.cpp.i
+.PHONY : stereo_calib.i
+
+# target to preprocess a source file
+stereo_calib.cpp.i:
+	$(MAKE) -f CMakeFiles/stereo_calib.dir/build.make CMakeFiles/stereo_calib.dir/stereo_calib.cpp.i
+.PHONY : stereo_calib.cpp.i
+
+stereo_calib.s: stereo_calib.cpp.s
+.PHONY : stereo_calib.s
+
+# target to generate assembly for a file
+stereo_calib.cpp.s:
+	$(MAKE) -f CMakeFiles/stereo_calib.dir/build.make CMakeFiles/stereo_calib.dir/stereo_calib.cpp.s
+.PHONY : stereo_calib.cpp.s
+
+stereocalibration.o: stereocalibration.cpp.o
+.PHONY : stereocalibration.o
+
+# target to build an object file
+stereocalibration.cpp.o:
+	$(MAKE) -f CMakeFiles/stereocalibration.dir/build.make CMakeFiles/stereocalibration.dir/stereocalibration.cpp.o
+.PHONY : stereocalibration.cpp.o
+
+stereocalibration.i: stereocalibration.cpp.i
+.PHONY : stereocalibration.i
+
+# target to preprocess a source file
+stereocalibration.cpp.i:
+	$(MAKE) -f CMakeFiles/stereocalibration.dir/build.make CMakeFiles/stereocalibration.dir/stereocalibration.cpp.i
+.PHONY : stereocalibration.cpp.i
+
+stereocalibration.s: stereocalibration.cpp.s
+.PHONY : stereocalibration.s
+
+# target to generate assembly for a file
+stereocalibration.cpp.s:
+	$(MAKE) -f CMakeFiles/stereocalibration.dir/build.make CMakeFiles/stereocalibration.dir/stereocalibration.cpp.s
+.PHONY : stereocalibration.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -141,9 +218,17 @@ help:
 	@echo "... calibration"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... stereo_calib"
+	@echo "... stereocalibration"
 	@echo "... calibration.o"
 	@echo "... calibration.i"
 	@echo "... calibration.s"
+	@echo "... stereo_calib.o"
+	@echo "... stereo_calib.i"
+	@echo "... stereo_calib.s"
+	@echo "... stereocalibration.o"
+	@echo "... stereocalibration.i"
+	@echo "... stereocalibration.s"
 .PHONY : help
 
 

@@ -9,6 +9,9 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  Qt4
+  QtCore
+  QtGui
 )
 
 ## System dependencies are found with CMake's conventions

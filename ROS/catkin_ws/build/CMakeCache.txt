@@ -214,6 +214,15 @@ Project_BINARY_DIR:STATIC=/home/biorobotics/Nico/daVinci/ROS/catkin_ws/build
 //Value Computed by CMake
 Project_SOURCE_DIR:STATIC=/home/biorobotics/Nico/daVinci/ROS/catkin_ws/src
 
+//The directory containing a CMake configuration file for Qt4.
+Qt4_DIR:PATH=Qt4_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for QtCore.
+QtCore_DIR:PATH=QtCore_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for QtGui.
+QtGui_DIR:PATH=QtGui_DIR-NOTFOUND
+
 //Path to a library.
 RT_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/librt.so
 

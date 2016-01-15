@@ -43,11 +43,14 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/biorobotics/nicoDaVinci/OpenCV
+CMAKE_SOURCE_DIR = /home/biorobotics/Nico/daVinci/OpenCV
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/biorobotics/nicoDaVinci/OpenCV
+CMAKE_BINARY_DIR = /home/biorobotics/Nico/daVinci/OpenCV
 
 #=============================================================================
 # Target rules for target CMakeFiles/calibration.dir
@@ -56,7 +59,7 @@ CMAKE_BINARY_DIR = /home/biorobotics/nicoDaVinci/OpenCV
 CMakeFiles/calibration.dir/all:
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/depend
 	$(MAKE) -f CMakeFiles/calibration.dir/build.make CMakeFiles/calibration.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/biorobotics/nicoDaVinci/OpenCV/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles  1
 	@echo "Built target calibration"
 .PHONY : CMakeFiles/calibration.dir/all
 
@@ -66,9 +69,9 @@ all: CMakeFiles/calibration.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/calibration.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/nicoDaVinci/OpenCV/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/calibration.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/nicoDaVinci/OpenCV/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles 0
 .PHONY : CMakeFiles/calibration.dir/rule
 
 # Convenience name for target.
@@ -82,6 +85,76 @@ CMakeFiles/calibration.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/calibration.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/stereo_calib.dir
+
+# All Build rule for target.
+CMakeFiles/stereo_calib.dir/all:
+	$(MAKE) -f CMakeFiles/stereo_calib.dir/build.make CMakeFiles/stereo_calib.dir/depend
+	$(MAKE) -f CMakeFiles/stereo_calib.dir/build.make CMakeFiles/stereo_calib.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles  2
+	@echo "Built target stereo_calib"
+.PHONY : CMakeFiles/stereo_calib.dir/all
+
+# Include target in all.
+all: CMakeFiles/stereo_calib.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/stereo_calib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/stereo_calib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles 0
+.PHONY : CMakeFiles/stereo_calib.dir/rule
+
+# Convenience name for target.
+stereo_calib: CMakeFiles/stereo_calib.dir/rule
+.PHONY : stereo_calib
+
+# clean rule for target.
+CMakeFiles/stereo_calib.dir/clean:
+	$(MAKE) -f CMakeFiles/stereo_calib.dir/build.make CMakeFiles/stereo_calib.dir/clean
+.PHONY : CMakeFiles/stereo_calib.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/stereo_calib.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/stereocalibration.dir
+
+# All Build rule for target.
+CMakeFiles/stereocalibration.dir/all:
+	$(MAKE) -f CMakeFiles/stereocalibration.dir/build.make CMakeFiles/stereocalibration.dir/depend
+	$(MAKE) -f CMakeFiles/stereocalibration.dir/build.make CMakeFiles/stereocalibration.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles  3
+	@echo "Built target stereocalibration"
+.PHONY : CMakeFiles/stereocalibration.dir/all
+
+# Include target in all.
+all: CMakeFiles/stereocalibration.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/stereocalibration.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/stereocalibration.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles 0
+.PHONY : CMakeFiles/stereocalibration.dir/rule
+
+# Convenience name for target.
+stereocalibration: CMakeFiles/stereocalibration.dir/rule
+.PHONY : stereocalibration
+
+# clean rule for target.
+CMakeFiles/stereocalibration.dir/clean:
+	$(MAKE) -f CMakeFiles/stereocalibration.dir/build.make CMakeFiles/stereocalibration.dir/clean
+.PHONY : CMakeFiles/stereocalibration.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/stereocalibration.dir/clean
 .PHONY : clean
 
 #=============================================================================
