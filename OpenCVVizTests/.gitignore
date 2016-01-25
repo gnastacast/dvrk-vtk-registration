@@ -27,5 +27,11 @@
 *.out
 *.app
 
-ignoring everything in the build directory
+# Ignoring everything in the build directory
 build/*
+
+# Ignoring unix temp files
+*~
+
+# Ignoring python compiles
+*.pyc
