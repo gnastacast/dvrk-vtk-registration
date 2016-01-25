@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( OpenCVVizTests )
+find_package( OpenCV 2.4.11 REQUIRED )
+message(${OpenCV_LIBS})
+add_executable( widget_pose widget_pose.cpp )
+target_link_libraries( widget_pose ${OpenCV_LIBS} )
