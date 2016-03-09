@@ -1,8 +1,0 @@
-prefix=/home/biorobotics/Nico/daVinci/qt/install
-
-Name: rqt_example_cpp
-Description: Description of rqt_example_cpp
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/biorobotics/Nico/daVinci/qt/install/lib -lrqt_example_cpp
-Requires: roscpp rqt_gui_cpp std_msgs
