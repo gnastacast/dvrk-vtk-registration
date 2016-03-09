@@ -69,6 +69,15 @@ class MainView(QtGui.QMainWindow):
     def renderVTK(self):
         self.ui.qvtkWidget.GetRenderWindow().Render()
 
+    def closeEvent(self,event):
+        self.mainCtrl.videoUpdater.running = False
+        self.mainCtrl.videoUpdater.wait()
+        self.mainCtrl.videoUpdater.terminate()
+        self.mainCtrl.videoUpdater.wait()
+        self.iren.TerminateApp()
+        QtGui.qApp.processEvents()
+        super(MainView, self).closeEvent(event)
+
     def show(self):
         ''' This adds to the default show function to initialize the interactor
             after MainView is shown to avoid a segfault caused if qvtkWidget's
@@ -77,9 +86,9 @@ class MainView(QtGui.QMainWindow):
         super(MainView, self).show()
         self.iren.Initialize()
 
-# Class defining a modified interactor style for manual registration
+
 class MainViewInteractorStyle(vtkInteractorStyleTrackballActor):
- 
+ # Class defining a modified interactor style for registration
     def __init__(self, controller):
         #self.AddObserver("KeyPressEvent", self.keyPressEvent)
         self.AddObserver("RightButtonPressEvent", self.rightButtonPressEvent)
@@ -88,7 +97,6 @@ class MainViewInteractorStyle(vtkInteractorStyleTrackballActor):
         self.AddObserver("LeftButtonReleaseEvent", self.leftButtonReleaseEvent)
         self.AddObserver("MouseMoveEvent", self.mouseMoveEvent)
         self.controller = controller
-
     # This removes camera dolly actions and replaces them with object dolly actions
     # This way the camera stays still no matter what you click.
     def rightButtonPressEvent(self,obj,event):

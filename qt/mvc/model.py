@@ -16,8 +16,6 @@ class MainModel(object):
         self.masking = False
         self.rect = (0,0,0,0)
         self.mask = np.ones(imgDims[::-1],np.uint8)*cv2.GC_PR_FGD
-        print self.mask.shape
-        print self.imgDims
 
         # variables for video
         self.cap = cv2.VideoCapture(0)
@@ -26,20 +24,21 @@ class MainModel(object):
 
         # variables for rendering
         self.videoFrame = np.zeros(self.imgDims,np.uint8)
+        self.maskedFrame = np.zeros(self.imgDims,np.uint8)
         self.bgImage = makeVtkImage(self.imgDims)
         self.stlActor = actorFromStl(stlPath)
         self.stlActor.GetProperty().SetColor(0,1,0)
         self.stlActor.GetProperty().SetOpacity(1)
         self.stlActor.SetPosition(0,0,.15)
         self.stlActor.SetOrientation(180,0,0)
-        # This will be set later using setRenWin
+        # This will be set later using setRenWin in main_view.py
         self.renWin = None
 
     def setRenWin(self, renWin):
-        self.renWin = setupRenWinForRegistration(renWin,
-                                                 self.bgImage,
-                                                 self.stlActor,
-                                                 self.camMatrix)
+        setupRenWinForRegistration(renWin,
+                                   self.bgImage,
+                                   self.stlActor,
+                                   self.camMatrix)
     # subscribe a view method for updating
     def subscribe_update_func(self, func):
         if func not in self._update_funcs:

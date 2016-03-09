@@ -1,8 +1,0 @@
-prefix=/home/biorobotics/Nico/daVinci/qt/devel
-
-Name: rqt_mypkg
-Description: Description of rqt_mypkg
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/biorobotics/Nico/daVinci/qt/devel/lib 
-Requires: 

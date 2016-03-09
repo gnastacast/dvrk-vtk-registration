@@ -23,3 +23,5 @@ if __name__ == '__main__':
     camMatrix = np.matrix(camParams['camera_matrix'])
     app = vtkRegistration(imgDims, stlpath, camMatrix, sys.argv)
     sys.exit(app.exec_())
+    app.controller.videoUpdater.running=False
+    app.controller.videoUpdater.wait()
