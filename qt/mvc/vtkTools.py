@@ -5,29 +5,52 @@ import cv2
 
 # Sets up a three channel empty vtkImageData object
 def makeVtkImage(imgDims):
+    ''' Creates a blank vtkImageData object of specified dimensions
+        Input: imgDims (int, int): desired width and height
+        Output: imData (vtkImageData): empty VTK image with three
+                channels for RGB
+    '''
     imData = vtk.vtkImageData()
-    imData.SetDimensions(imgDims[0], imgDims[1], 1) #set dimensions as necessary
+    imData.SetDimensions(imgDims[0], imgDims[1],1) #set dimensions as necessary
     imData.SetOrigin(0,0,0) #set origin as necessary
     imData.SetSpacing(1, 1, 1) #set spacing as necessary
-    imData.SetNumberOfScalarComponents( 3 )
-    imData.SetScalarTypeToUnsignedChar()
-    imData.Update()
+    # Set number of channels (3)
+    if vtk.VTK_MAJOR_VERSION <= 5:
+        imData.SetNumberOfScalarComponents(3)
+        imData.SetScalarTypeToUnsignedChar()
+        imData.Update()
+    else:
+        imData.AllocateScalars(vtk.VTK_UNSIGNED_CHAR, 3)
     return imData
 
 def numpyToVtkImage(numpyData,VTKImageData):
+    ''' Copies a numpy array to a vtkImageData object in place.
+        Used for updating existing vtkImageData with new pixel
+        data.
+        https://pyscience.wordpress.com/2014/09/06/numpy-to-vtk-converting-your-numpy-arrays-to-vtk-arrays-and-files/
+        was extremely useful
+
+    '''
+    # Data from CV comes as BGR and vtkImageData displays as RGB so we convert
     rgb = cv2.cvtColor(numpyData, cv2.COLOR_BGR2RGB)
-    VTK_data = numpy_support.numpy_to_vtk(num_array=rgb[::-1].ravel(),deep=True, array_type=vtk.VTK_CHAR)
+    # Use numpy_support module to get a vtkDataArray object containing pixel data
+    VTK_data = numpy_support.numpy_to_vtk(num_array=rgb[::-1].ravel(),deep=True, array_type=vtk.VTK_UNSIGNED_CHAR)
+    # Set number of channels in pixel data
+    VTK_data.SetNumberOfComponents(3)
     VTKImageData.GetPointData().SetScalars(VTK_data)
-    return VTKImageData
 
 def vtkImageToNumpy(VTKImageData,numpyData):
+    ''' Copies pixel data from a vtkImageData into a
+        numpy array in place
+    '''
     size = VTKImageData.GetDimensions()
     numpyData = numpy_support.vtk_to_numpy(VTK_data)
     numpyData = numpyData.reshape((size[1],size[0],3))
-    return numpyData
 
 def actorFromStl(stlPath):
-    # Read in STL file
+    ''' Reads in an STL file and returns a vtkActor
+        object that the vtkRenderer can use
+    '''
     reader = vtk.vtkSTLReader()
     reader.SetFileName(stlPath)
     mapper = vtk.vtkPolyDataMapper()
@@ -41,7 +64,20 @@ def actorFromStl(stlPath):
     return actor
 
 def setupRenWinForRegistration(renWin,bgImage,actor,camMatrix):
+    ''' Sets up the render window for registration in place
+        Input:
+            renWin (vtkRenderWindow): render window to set up with
+                                      actors and renderers
+            bgImage (vtkImageData): image to put in the background
+                                    that will be updated with video
+                                    footage and masking feedback
+            actor (vtkActor): Actor that functions as mapper for the
+                              STL file we are registering.
+            camMatrix (np.ndarray): 4x4 camera intrinsic matrix from
+                                    OpenCV calibration
+    '''
     renWin.SetNumberOfLayers(2)
+
     # Create foreground renderer for stl object
     ren=vtk.vtkRenderer()
     ren.SetLayer(1)
@@ -51,7 +87,6 @@ def setupRenWinForRegistration(renWin,bgImage,actor,camMatrix):
     renWin.SetSize(imgDims[0],imgDims[1])
     camera = _cameraFromMatrix(camMatrix,imgDims,imgDims)
     ren.SetActiveCamera(camera)
-    #ren.SetActiveCamera(camera)
 
     # Create background renderer for static object
     backgroundRen = vtk.vtkRenderer()
@@ -78,10 +113,11 @@ def _makeImagePlane(imageData) :
         was the basis for this function
     '''
     imageActor = vtk.vtkImageActor()
+    
     if vtk.VTK_MAJOR_VERSION <= 5 :
-      imageActor.SetInput(imageData);
+        imageActor.SetInput(imageData)
     else :
-      imageActor.SetInputData(imageData);
+        imageActor.SetInputData(imageData)
 
     origin = imageData.GetOrigin()
     spacing = imageData.GetSpacing()
@@ -92,11 +128,11 @@ def _makeImagePlane(imageData) :
 
     xc = origin[0] + 0.5*(extent[0] + extent[1])*spacing[0]
     yc = origin[1] + 0.5*(extent[2] + extent[3])*spacing[1]
-    yd = (extent[3] - extent[2] + 1)*spacing[1];
+    yd = (extent[3] - extent[2] + 1)*spacing[1]
     d = camera.GetDistance()
     camera.SetParallelScale(0.5*yd)
     camera.SetFocalPoint(xc,yc,0.0)
-    camera.SetPosition(xc,yc,d);
+    camera.SetPosition(xc,yc,d)
 
     return camera, imageActor
 
@@ -127,39 +163,35 @@ def _cameraFromMatrix(camMatrix, imageDims, windowDims) :
     camera.SetViewAngle(viewAngle)
 
     #Set window center
-    py = 0;
-    height = 0;
+    py = 0
+    height = 0
 
     if imageDims[0] != windowDims[0] or imageDims[1] != windowDims[1] :
-
         factor = float(windowDims[1])/float(imageDims[1])
         px = factor * camMatrix[0,2]
         width = windowDims[0]
-        expectedWindowSize = np.round(factor * float(imageDims[0]));
+        expectedWindowSize = np.round(factor * float(imageDims[0]))
         if( expectedWindowSize != windowDims[0] ):
-            diffX = (windowDims[0] - expectedWindowSize) / 2;
+            diffX = (windowDims[0] - expectedWindowSize) / 2
             px = px + diffX
-
         py = factor * camMatrix[1,2]
         height = windowDims[1]
 
     else :
         px = camMatrix[0,2]
         width = imageDims[0]
-
         py = camMatrix[1,2]
         height = imageDims[1]
 
-    cx = width - px;
+    cx = width - px
     cy = py
 
     windowCenter = [0,0]
-
     windowCenter[0] = cx / ( ( width-1)/2 ) - 1 
     windowCenter[1] = cy / ( ( height-1)/2 ) - 1
-
     camera.SetWindowCenter(windowCenter[0],windowCenter[1])
 
+    # Set camera to look forward from center
     camera.SetPosition(0,0,0)
     camera.SetFocalPoint(0,0,1)
 

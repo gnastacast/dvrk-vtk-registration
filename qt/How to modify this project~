@@ -1,3 +1,0 @@
-Edit the views/UI main_view.ui using QT Designer
-Compile the UI to views/gen/ui_main_view.py using the command
-	pyuic4 mvc/views/main_view.ui -o mvc/views/gen/ui_main_view.py
