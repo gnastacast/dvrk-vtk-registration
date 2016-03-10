@@ -31,7 +31,7 @@ class MainView(QtGui.QMainWindow):
         super(MainView, self).__init__()
         self.buildUI()
         # Set up controller update thread
-        self.mainCtrl.videoUpdater.VTK_updated.connect(self.renderVTK)
+        self.mainCtrl.bgUpdater.VTK_updated.connect(self.renderVTK)
         # register func with model for future model update announcements
         self.model.subscribe_update_func(self.updateUiFromModel)  
 
@@ -41,6 +41,7 @@ class MainView(QtGui.QMainWindow):
         # connect signals to methods
         self.ui.actionMasking.changed.connect(self.onMasking)
         self.ui.actionAutoCamera.changed.connect(self.onSetCameraParams)
+        self.ui.actionFineRegistration.triggered.connect(self.onFineRegistration)
         # Replace vertical layout placeholder with a QVTKRenderWindowInteractor
         self.ui.qvtkWidget = QVTKRenderWindowInteractor(self.ui.centralwidget)
         self.ui.qvtkWidget.setObjectName(_fromUtf8("qvtkWidget"))
@@ -63,6 +64,9 @@ class MainView(QtGui.QMainWindow):
     def onSetCameraParams(self):
         self.mainCtrl.changeAutoCamera(self.autoCamera)
 
+    def onFineRegistration(self):
+        self.mainCtrl.register()
+
     def updateUiFromModel(self):
         self.masking = self.model.masking
 
@@ -70,10 +74,10 @@ class MainView(QtGui.QMainWindow):
         self.ui.qvtkWidget.GetRenderWindow().Render()
 
     def closeEvent(self,event):
-        self.mainCtrl.videoUpdater.running = False
-        self.mainCtrl.videoUpdater.wait()
-        self.mainCtrl.videoUpdater.terminate()
-        self.mainCtrl.videoUpdater.wait()
+        self.mainCtrl.bgUpdater.running = False
+        self.mainCtrl.bgUpdater.wait()
+        self.mainCtrl.bgUpdater.terminate()
+        self.mainCtrl.bgUpdater.wait()
         self.iren.TerminateApp()
         QtGui.qApp.processEvents()
         super(MainView, self).closeEvent(event)
@@ -107,14 +111,21 @@ class MainViewInteractorStyle(vtkInteractorStyleTrackballActor):
         return
     # This sends press events to the controller
     def leftButtonPressEvent(self,obj,event):
-        self.controller.mouseEvent('leftButtonPress',self.GetInteractor())
-        self.OnLeftButtonDown()
+        # if not in masking mode or not updating, do nothing
+        if self.controller.model.masking and self.controller.bgUpdater.running:
+            self.controller.mouseEvent('leftButtonPress',self.GetInteractor())
+        elif self.controller.bgUpdater.running:
+            self.OnLeftButtonDown()
         return
     def leftButtonReleaseEvent(self,obj,event):
-        self.controller.mouseEvent('leftButtonRelease',self.GetInteractor())
-        self.OnLeftButtonUp()
+        if self.controller.model.masking and self.controller.bgUpdater.running:
+            self.controller.mouseEvent('leftButtonRelease',self.GetInteractor())
+        elif self.controller.bgUpdater.running:
+            self.OnLeftButtonUp()
         return
     def mouseMoveEvent(self,obj,event):
-        self.controller.mouseEvent('mouseMove',self.GetInteractor())
-        self.OnMouseMove()
+        if self.controller.model.masking and self.controller.bgUpdater.running:
+            self.controller.mouseEvent('mouseMove',self.GetInteractor())
+        elif self.controller.bgUpdater.running:
+            self.OnMouseMove()
         return

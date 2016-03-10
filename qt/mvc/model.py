@@ -4,6 +4,7 @@ from PyQt4 import QtGui
 from vtkTools import setupRenWinForRegistration
 from vtkTools import makeVtkImage
 from vtkTools import actorFromStl
+from vtkTools import zBuff
 
 class MainModel(object):
     def __init__(self, imgDims, stlPath, camMatrix):
@@ -15,7 +16,8 @@ class MainModel(object):
         # variables for masking
         self.masking = False
         self.rect = (0,0,0,0)
-        self.mask = np.ones(imgDims[::-1],np.uint8)*cv2.GC_PR_FGD
+        self.drawnMask = np.ones(imgDims[::-1],np.uint8,1)*cv2.GC_PR_FGD
+        self.mask = np.ones(imgDims[::-1],np.uint8,1)*cv2.GC_PR_FGD
 
         # variables for video
         self.cap = cv2.VideoCapture(0)
@@ -33,12 +35,17 @@ class MainModel(object):
         self.stlActor.SetOrientation(180,0,0)
         # This will be set later using setRenWin in main_view.py
         self.renWin = None
+        self.zBuff = None
 
     def setRenWin(self, renWin):
         setupRenWinForRegistration(renWin,
                                    self.bgImage,
                                    self.stlActor,
                                    self.camMatrix)
+
+        # Set up Zbuffer for registration
+        self.zBuff = zBuff(renWin)
+
     # subscribe a view method for updating
     def subscribe_update_func(self, func):
         if func not in self._update_funcs:
