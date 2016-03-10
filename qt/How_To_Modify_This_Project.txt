@@ -4,6 +4,10 @@ This project was tested using:
     cv2 2.4.11
     Qt 4.8.7
     PyQt4 4.11.4
+    
+vtk can be installed from http://www.vtk.org/download/
+OpenCV can be installed from http://docs.opencv.org/2.4/doc/tutorials/introduction/table_of_content_introduction/table_of_content_introduction.html#table-of-content-introduction
+PyQt4 can be installed here https://www.riverbankcomputing.com/software/pyqt/download
 
 Edit the views/UI main_view.ui using QT Designer
 Compile the UI to views/gen/ui_main_view.py using the command
