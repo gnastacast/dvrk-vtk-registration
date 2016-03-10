@@ -33,10 +33,11 @@ class MainController(object):
 
     def changeAutoCamera(self,checked):
         ''' Hacky function that turns auto exposure and auto white white balance
-            off and on. This is camera and operating system specific, so it will
+            off and on. This is camera and operating system specific so it will
             probably need to be changed in order to work with your setup.
         '''
-        if platform != 'linux':
+        # Only try this if on linux.
+        if not('linux' in platform):
             return
         if checked:
             # Turn on all automatic features
@@ -92,20 +93,20 @@ class MainController(object):
                 self.drawingLine = False
 
     def _removeBG(self, frame):
+        ''' This function uses grabcut to mask out foreground and background
+        '''
         # Stop update to stop commands from piling up
         self.bgUpdater.running = False
         # Begin with a new mask that is all background
         img = frame.copy()
         mask = np.ones(img.shape[:2],np.uint8)*cv2.GC_BGD
-        # Replace everything inside the box selection with data from the current mask
-        startCorner = self.model.rect[0:2]
-        endCorner = self.model.rect[2:4]
-        mask[startCorner[1]:endCorner[1], startCorner[0]:endCorner[0]] = \
-            self.model.drawnMask[startCorner[1]:endCorner[1],startCorner[0]:endCorner[0]]
+        # Replace everything inside the box selection with data from the mask
+        rect = (x1,y1,x2,y2) = self.model.rect
+        mask[y1:y2, x1:x2] = self.model.drawnMask[y1:y2,x1:x2]
         # Perform grabcut algorithm to separate background and foreground
         tmp1 = np.zeros((1, 13 * 5))
         tmp2 = np.zeros((1, 13 * 5))
-        cv2.grabCut(img,mask,self.model.rect,tmp1,tmp2,5,mode=cv2.GC_INIT_WITH_MASK)
+        cv2.grabCut(img,mask,rect,tmp1,tmp2,5,mode=cv2.GC_INIT_WITH_MASK)
         # Update model's mask
         self.model.mask = np.where((mask==2)|(mask==0),0,255)
         # Redden areas that are masked out
@@ -117,6 +118,9 @@ class MainController(object):
         return img.astype('uint8')
 
     def register(self):
+        ''' This function uses downhill simplex and simulated annealing to 
+            perform fine registration of the STL to its real world counterpart
+        '''
         # Stop update to stop commands from piling up
         self.bgUpdater.running = False
         self.bgUpdater.wait()
@@ -128,7 +132,6 @@ class MainController(object):
         ren = rendererCollection.GetItemAsObject(0)
         bgRen = rendererCollection.GetItemAsObject(1)
         # Set renderers for fast rendering
-        #self.model.stlActor.GetProperty().SetColor(0,0,0)
         ren.ResetCameraClippingRange()
         self.model.stlActor.GetProperty().SetRepresentationToSurface()
         bgRen.Clear()
@@ -142,7 +145,7 @@ class MainController(object):
             self.model.stlActor.SetPosition(var[0],var[1],var[2])
             self.model.stlActor.SetOrientation(var[3],var[4],var[5])
             ren.ResetCameraClippingRange()
-            #bgRen.Clear()
+            bgRen.Clear()
             self.model.renWin.Render()
             frame = vtkImageToNumpy(self.model.zBuff.GetOutput())
             frame = np.where((frame==255),0,255)
@@ -156,13 +159,14 @@ class MainController(object):
         translationScale = .01
         scales = [translationScale]*3 + [angleScale]*3
         startTime = time.clock()
-        s,fvalue,iteration = amoeba(s0,scales,_distFunc,ftolerance=.0001,xtolerance=.0001,itmax=iterations)
+        s,fvalue,iteration = amoeba(s0,scales,_distFunc,ftolerance=.0001,
+                                    xtolerance=.0001,itmax=iterations)
         totalTime = time.clock()-startTime
         print("Time: " + str(totalTime))
-        print("Error: " + str(self.model.imgDims[0]*self.model.imgDims[1]-fvalue) +" Iteration:" + str(iteration))
+        print("Error: "+str(self.model.imgDims[0]*self.model.imgDims[1]-fvalue)+
+              " Iteration:" + str(iteration))
         
         # Restart update
-        #self.model.stlActor.GetProperty().SetColor(0,1,0)
         bgRen.DrawOn()
         self.bgUpdater.running = True
         self.bgUpdater.start()

@@ -38,11 +38,8 @@ class MainModel(object):
         self.zBuff = None
 
     def setRenWin(self, renWin):
-        setupRenWinForRegistration(renWin,
-                                   self.bgImage,
-                                   self.stlActor,
-                                   self.camMatrix)
-
+        setupRenWinForRegistration(renWin, self.bgImage, 
+                                   self.stlActor, self.camMatrix)
         # Set up Zbuffer for registration
         self.zBuff = zBuff(renWin)
 

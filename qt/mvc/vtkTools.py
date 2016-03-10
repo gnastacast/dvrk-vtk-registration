@@ -8,7 +8,7 @@ def makeVtkImage(imgDims):
     ''' Creates a blank vtkImageData object of specified dimensions
         Input: imgDims (int, int): desired width and height
         Output: imData (vtkImageData): empty VTK image with three
-                channels for RGB
+                                       channels for RGB
     '''
     imData = vtk.vtkImageData()
     imData.SetDimensions(imgDims[0], imgDims[1],1) #set dimensions as necessary
@@ -33,14 +33,14 @@ def numpyToVtkImage(numpyData,VTKImageData):
     if len(numpyData.shape)==3 and numpyData.shape[2] == 3:
         # Data from CV comes as BGR and vtkImageData displays as RGB so we convert
         rgb = cv2.cvtColor(numpyData, cv2.COLOR_BGR2RGB)
-        # Use numpy_support module to get a vtkDataArray object containing pixel data
+        # Get a vtkDataArray object containing numpy pixel data
         VTK_data = numpy_support.numpy_to_vtk(num_array=rgb[::-1].ravel(),
                                               deep=True, 
                                               array_type=vtk.VTK_UNSIGNED_CHAR)
         # Set number of channels in pixel data
         VTK_data.SetNumberOfComponents(numpyData.shape[2])
     else:
-        # Use numpy_support module to get a vtkDataArray object containing pixel data
+        #Get a vtkDataArray object containing pixel data
         VTK_data = numpy_support.numpy_to_vtk(num_array=numpyData[::-1].ravel(),
                                               deep=True, 
                                               array_type=vtk.VTK_UNSIGNED_CHAR)
@@ -174,7 +174,7 @@ def _cameraFromMatrix(camMatrix, imageDims, windowDims) :
 
         Input: 
             camMatrix (np.ndarray) = 4x4 camera intrinsic matrix
-            imageDims ((float, float))  = width and height of image to register to
+            imageDims ((float, float))  = width and height of image to register
             imageDims ((float, float))  = width and height of render window
 
         Output:
@@ -188,13 +188,12 @@ def _cameraFromMatrix(camMatrix, imageDims, windowDims) :
     if( windowDims[1] != imageDims[1] ):
         factor = float(windowDims[1])/float(imageDims[1])
         focalLengthY = camMatrix[1,1] * factor
-    viewAngle = 2 * np.arctan( (windowDims[1] / 2.0 ) / focalLengthY ) * 180 / np.pi
+    viewAngle = np.arctan((windowDims[1]/2.0)/focalLengthY)*360/np.pi
     camera.SetViewAngle(viewAngle)
 
     #Set window center
     py = 0
     height = 0
-
     if imageDims[0] != windowDims[0] or imageDims[1] != windowDims[1] :
         factor = float(windowDims[1])/float(imageDims[1])
         px = factor * camMatrix[0,2]
@@ -205,16 +204,13 @@ def _cameraFromMatrix(camMatrix, imageDims, windowDims) :
             px = px + diffX
         py = factor * camMatrix[1,2]
         height = windowDims[1]
-
     else :
         px = camMatrix[0,2]
         width = imageDims[0]
         py = camMatrix[1,2]
         height = imageDims[1]
-
     cx = width - px
     cy = py
-
     windowCenter = [0,0]
     windowCenter[0] = cx / ( ( width-1)/2 ) - 1 
     windowCenter[1] = cy / ( ( height-1)/2 ) - 1
