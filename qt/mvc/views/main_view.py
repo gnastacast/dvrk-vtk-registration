@@ -1,7 +1,7 @@
 from PyQt4 import QtGui, QtCore
 from vtk import vtkInteractorStyleTrackballActor
 from vtk.qt4.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
-from gen.ui_main_view import Ui_MainView
+from ui_main_view import Ui_MainView
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
