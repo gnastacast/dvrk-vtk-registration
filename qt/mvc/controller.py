@@ -6,7 +6,6 @@ import cv2
 from PyQt4 import QtCore
 from vtkTools import numpyToVtkImage
 from vtkTools import vtkImageToNumpy
-from vtkTools import getDepthRenderPasses
 from amoeba_annealer import amoeba
 
 class MainController(object):
@@ -129,6 +128,7 @@ class MainController(object):
         ren = rendererCollection.GetItemAsObject(0)
         bgRen = rendererCollection.GetItemAsObject(1)
         # Set renderers for fast rendering
+        #self.model.stlActor.GetProperty().SetColor(0,0,0)
         ren.ResetCameraClippingRange()
         self.model.stlActor.GetProperty().SetRepresentationToSurface()
         bgRen.Clear()
@@ -142,7 +142,7 @@ class MainController(object):
             self.model.stlActor.SetPosition(var[0],var[1],var[2])
             self.model.stlActor.SetOrientation(var[3],var[4],var[5])
             ren.ResetCameraClippingRange()
-            bgRen.Clear()
+            #bgRen.Clear()
             self.model.renWin.Render()
             frame = vtkImageToNumpy(self.model.zBuff.GetOutput())
             frame = np.where((frame==255),0,255)
@@ -162,7 +162,7 @@ class MainController(object):
         print("Error: " + str(self.model.imgDims[0]*self.model.imgDims[1]-fvalue) +" Iteration:" + str(iteration))
         
         # Restart update
-        self.model.stlActor.GetProperty().SetColor(0,1,0)
+        #self.model.stlActor.GetProperty().SetColor(0,1,0)
         bgRen.DrawOn()
         self.bgUpdater.running = True
         self.bgUpdater.start()
