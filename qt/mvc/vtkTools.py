@@ -29,23 +29,33 @@ def numpyToVtkImage(numpyData,VTKImageData):
         data.
         https://pyscience.wordpress.com/2014/09/06/numpy-to-vtk-converting-your-numpy-arrays-to-vtk-arrays-and-files/
         was extremely useful
-
     '''
-    # Data from CV comes as BGR and vtkImageData displays as RGB so we convert
-    rgb = cv2.cvtColor(numpyData, cv2.COLOR_BGR2RGB)
-    # Use numpy_support module to get a vtkDataArray object containing pixel data
-    VTK_data = numpy_support.numpy_to_vtk(num_array=rgb[::-1].ravel(),deep=True, array_type=vtk.VTK_UNSIGNED_CHAR)
-    # Set number of channels in pixel data
-    VTK_data.SetNumberOfComponents(3)
+    if len(numpyData.shape)==3 and numpyData.shape[2] == 3:
+        # Data from CV comes as BGR and vtkImageData displays as RGB so we convert
+        rgb = cv2.cvtColor(numpyData, cv2.COLOR_BGR2RGB)
+        # Use numpy_support module to get a vtkDataArray object containing pixel data
+        VTK_data = numpy_support.numpy_to_vtk(num_array=rgb[::-1].ravel(),
+                                              deep=True, 
+                                              array_type=vtk.VTK_UNSIGNED_CHAR)
+        # Set number of channels in pixel data
+        VTK_data.SetNumberOfComponents(numpyData.shape[2])
+    else:
+        # Use numpy_support module to get a vtkDataArray object containing pixel data
+        VTK_data = numpy_support.numpy_to_vtk(num_array=numpyData[::-1].ravel(),
+                                              deep=True, 
+                                              array_type=vtk.VTK_UNSIGNED_CHAR)
     VTKImageData.GetPointData().SetScalars(VTK_data)
 
-def vtkImageToNumpy(VTKImageData,numpyData):
-    ''' Copies pixel data from a vtkImageData into a
-        numpy array in place
+def vtkImageToNumpy(VTKImageData):
+    ''' Copies pixel data from a vtkImageData and returns a new numpy array
     '''
     size = VTKImageData.GetDimensions()
+    shape = (size[1],size[0],VTKImageData.GetNumberOfScalarComponents())
+    VTK_data = VTKImageData.GetPointData().GetScalars()
     numpyData = numpy_support.vtk_to_numpy(VTK_data)
-    numpyData = numpyData.reshape((size[1],size[0],3))
+    numpyData = numpyData.reshape(shape)
+    numpyData = numpyData[::-1]
+    return numpyData
 
 def actorFromStl(stlPath):
     ''' Reads in an STL file and returns a vtkActor
@@ -103,6 +113,25 @@ def setupRenWinForRegistration(renWin,bgImage,actor,camMatrix):
     
     # Way of getting camera: renWin.GetRenderers().GetFirstRenderer()
     return renWin
+
+class zBuff:
+    def __init__(self,renWin):
+        self.renWin = renWin
+        self.zBuffFilter = vtk.vtkWindowToImageFilter()
+        self.zBuffFilter.SetInput(self.renWin)
+        self.zBuffFilter.SetInputBufferTypeToZBuffer()
+
+        self.scaledZBuff = vtk.vtkImageShiftScale()
+        self.scaledZBuff.SetOutputScalarTypeToUnsignedChar()
+        self.scaledZBuff.SetInputConnection(self.zBuffFilter.GetOutputPort())
+        self.scaledZBuff.SetShift(0)
+        self.scaledZBuff.SetScale(255)
+
+    def GetOutput(self):
+        self.renWin.Render()
+        self.zBuffFilter.Modified()
+        self.scaledZBuff.Update()
+        return self.scaledZBuff.GetOutput()
 
 # Loads an image and returns a plane object and a camera pointed towards it
 def _makeImagePlane(imageData) :
