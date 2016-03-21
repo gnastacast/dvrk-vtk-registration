@@ -3,6 +3,8 @@ from sys import platform
 from subprocess import call
 import numpy as np
 import cv2
+import rospy
+from geometry_msgs.msg import Transform
 from PyQt4 import QtCore
 from vtkTools import numpyToVtkImage
 from vtkTools import vtkImageToNumpy
@@ -19,6 +21,9 @@ class MainController(object):
         self.drawingBox = False
         self.drawingLine = False
         self.brushColor = int(cv2.GC_FGD)
+        self.pub = rospy.Publisher('chatter', Transform, queue_size=1)
+        rospy.init_node('vtk_registration', anonymous=True)
+
 
     # called from view class
     def changeMasking(self, checked):
@@ -165,7 +170,20 @@ class MainController(object):
         print("Time: " + str(totalTime))
         print("Error: "+str(self.model.imgDims[0]*self.model.imgDims[1]-fvalue)+
               " Iteration:" + str(iteration))
-        
+
+        #   Publish result to ros node
+        transformMsg = Transform()
+        pos = self.model.stlActor.GetPosition()
+        transformMsg.translation.x = pos[0]
+        transformMsg.translation.y = pos[1]
+        transformMsg.translation.z = pos[2]
+        rot = self.model.stlActor.GetOrientationWXYZ()
+        transformMsg.rotation.x = rot[0]
+        transformMsg.rotation.y = rot[1]
+        transformMsg.rotation.z = rot[2]
+        transformMsg.rotation.w = rot[3]
+        self.pub.publish(transformMsg)
+
         # Restart update
         bgRen.DrawOn()
         self.bgUpdater.running = True

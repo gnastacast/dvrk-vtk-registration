@@ -2,7 +2,6 @@ from PyQt4 import QtGui, QtCore
 from vtk import vtkInteractorStyleTrackballActor
 from vtk.qt4.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 from ui_main_view import Ui_MainView
-
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -33,8 +32,7 @@ class MainView(QtGui.QMainWindow):
         # Set up controller update thread
         self.mainCtrl.bgUpdater.VTK_updated.connect(self.renderVTK)
         # register func with model for future model update announcements
-        self.model.subscribe_update_func(self.updateUiFromModel)  
-
+        self.model.subscribe_update_func(self.updateUiFromModel)
     def buildUI(self):
         self.ui = Ui_MainView()
         self.ui.setupUi(self)
