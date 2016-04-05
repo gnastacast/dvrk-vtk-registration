@@ -1,0 +1,32 @@
+This project was tested using:
+    python 2.7.11 and 2.7.3
+    vtk 6.3.0 and 5.8.0
+    cv2 2.4.11 and 2.4.9
+    Qt 4.8.7 and 4.8.1
+    PyQt4 4.11.4 and 4.9.1
+    
+vtk can be installed from http://www.vtk.org/download/
+OpenCV can be installed from http://docs.opencv.org/2.4/doc/tutorials/introduction/table_of_content_introduction/table_of_content_introduction.html#table-of-content-introduction
+PyQt4 can be installed here https://www.riverbankcomputing.com/software/pyqt/download
+
+Edit the views/UI main_view.ui using QT Designer
+Compile the UI to views/gen/ui_main_view.py using the command
+	pyuic4 mvc/views/main_view.ui -o mvc/views/gen/ui_main_view.py
+    
+The main files to edit the actual program are 
+    mvc/controller.py - The bulk of the processing is done here, including
+                        button callbacks and an update thread for the
+                        video. 
+    mvc/model.py - Holds all the handles to the data that is manipulated
+                   by the view and used by the controller
+    mvc/main_view.py - Hooks ui_main_view up to the controller and the 
+                       model. Also initializes the vtk widget and its
+                       interactor
+    mvc/vtkTools.py - Tools that help VTK and CV communicate
+                      as well as tools to setup VTK for registration.
+                      These are used in all three of the above files.
+                      
+Other files
+    mvc/amoeba_annealer.py - This is an abstract function that will perform
+                             downhill simplex optimization with a few
+                             concepts from simulated annealing thrown in.
