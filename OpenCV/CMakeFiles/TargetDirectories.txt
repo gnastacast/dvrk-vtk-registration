@@ -1,3 +1,0 @@
-/home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles/calibration.dir
-/home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles/stereo_calib.dir
-/home/biorobotics/Nico/daVinci/OpenCV/CMakeFiles/stereocalibration.dir
