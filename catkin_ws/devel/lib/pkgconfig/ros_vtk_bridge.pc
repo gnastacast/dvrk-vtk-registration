@@ -1,8 +1,0 @@
-prefix=~/Nico/daVinci/ROS/catkin_ws/devel
-
-Name: ros_vtk_bridge
-Description: Description of ros_vtk_bridge
-Version: 0.0.0
-Cflags: 
-Libs: -L~/Nico/daVinci/ROS/catkin_ws/devel/lib 
-Requires: 

@@ -1,8 +1,0 @@
-prefix=/home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/install
-
-Name: ROS-VTK-bridge
-Description: Description of ROS-VTK-bridge
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/biorobotics/nicoDaVinci/daVinci/ROS/catkin_ws/install/lib 
-Requires: 
