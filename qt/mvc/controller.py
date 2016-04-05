@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import time
 from sys import platform
 from subprocess import call
@@ -197,6 +198,7 @@ class MainController(object):
             QtCore.QThread.__init__(self)
             self.running = True
             self.model = model
+            self.checkVideoRateMS = 100
 
         def run(self):
             while self.running:
@@ -206,9 +208,20 @@ class MainController(object):
                     self.updateVideo()
 
         def updateVideo(self):
-            ret, frame = self.model.cap.read()
-            self.model.videoFrame = frame.copy()
-            self.model.maskedFrame = frame.copy()
+            if (self.model.cap.isOpened()):
+                ret, frame = self.model.cap.read()
+                self.model.videoFrame = frame.copy()
+                self.model.maskedFrame = frame.copy()
+            else:
+                frame = self.model.videoFrame.copy()
+                font = cv2.FONT_HERSHEY_SIMPLEX
+                cv2.putText(frame,'No Video',(20,20), font, 1,(255,255,255))
+                numpyToVtkImage(frame,self.model.bgImage)
+                time.sleep(0.001*self.checkVideoRateMS)
+                self.model.cap = cv2.VideoCapture(0)
+                self.model.cap.set(3,self.model.imgDims[0])
+                self.model.cap.set(4,self.model.imgDims[1])
+
             numpyToVtkImage(frame,self.model.bgImage)
             self.VTK_updated.emit(1)
 

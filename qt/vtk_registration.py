@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+import os
 import sys
 from PyQt4 import QtGui
 from mvc.model import MainModel

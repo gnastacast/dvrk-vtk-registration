@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from PyQt4 import QtGui, QtCore
 from vtk import vtkInteractorStyleTrackballActor
 from vtk.qt4.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor

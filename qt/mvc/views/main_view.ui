@@ -34,6 +34,8 @@
    <addaction name="actionMasking"/>
    <addaction name="actionFineRegistration"/>
    <addaction name="actionAutoCamera"/>
+   <addaction name="actionUpdate_ROS"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionMasking">
    <property name="checkable">
@@ -57,6 +59,11 @@
    </property>
    <property name="text">
     <string>Camera Auto Adjust</string>
+   </property>
+  </action>
+  <action name="actionUpdate_ROS">
+   <property name="text">
+    <string>Update ROS</string>
    </property>
   </action>
  </widget>

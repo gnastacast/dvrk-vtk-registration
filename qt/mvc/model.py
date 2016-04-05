@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import numpy as np
 import cv2
 from PyQt4 import QtGui
@@ -25,8 +26,9 @@ class MainModel(object):
         self.cap.set(4,self.imgDims[1])
 
         # variables for rendering
-        self.videoFrame = np.zeros(self.imgDims,np.uint8)
-        self.maskedFrame = np.zeros(self.imgDims,np.uint8)
+        openCvDims = (self.imgDims[1],self.imgDims[0],3);
+        self.videoFrame = np.zeros(openCvDims,np.uint8)
+        self.maskedFrame = np.zeros(openCvDims,np.uint8)
         self.bgImage = makeVtkImage(self.imgDims)
         self.stlActor = actorFromStl(stlPath)
         self.stlActor.GetProperty().SetColor(0,1,0)
