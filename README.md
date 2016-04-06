@@ -17,11 +17,19 @@ vtk_registration/
 ├── src/
 │   ├── defaults/
 │   ├── launch/
-│   ├── mvc/
+│   ├── code/
+|   │   ├── amoeba_annealer.py
+|   │   ├── controller.py
+|   │   ├── model.py
+|   │   ├── views
+|   |   │   ├── main_view.py 
+|   |   │   ├── main_view.ui
+|   |   │   └── ui_main_view.py
+|   │   ├── vtk_registration.py
+│   │   └── vtkTools.py
 │   ├── tools/
 |   │   ├── camCalibration.py
 |   │   └── daVinciCalibration.py
-|   └── vtk_registration.py
 ├── CMakeLists.txt
 └── package.xml
 ```
