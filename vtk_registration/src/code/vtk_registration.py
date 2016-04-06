@@ -2,9 +2,9 @@
 import os
 import sys
 from PyQt4 import QtGui
-from mvc.model import MainModel
-from mvc.controller import MainController
-from mvc.views.main_view import MainView
+from model import MainModel
+from controller import MainController
+from views.main_view import MainView
 
 class vtkRegistration(QtGui.QApplication):
     def __init__(self, imgDims, stlPath, camMatrix, sys_argv):
