@@ -16,11 +16,11 @@ class vtkRegistration(QtGui.QApplication):
 
 if __name__ == '__main__':
     imgDims = (1280,720)
-    stlpath = 'defaults/objects/Dovetail.stl'
+    stlpath = '../defaults/objects/Dovetail.stl'
     # Read camera matrix for VTK
     import codecs, json
     import numpy as np
-    obj_text = codecs.open('defaults/Logitech_c920/singleCam.json', 'r', encoding='utf-8').read()
+    obj_text = codecs.open('../defaults/Logitech_c920/singleCam.json', 'r', encoding='utf-8').read()
     camParams = json.loads(obj_text)
     camMatrix = np.matrix(camParams['camera_matrix'])
     app = vtkRegistration(imgDims, stlpath, camMatrix, sys.argv)
