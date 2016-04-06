@@ -23,8 +23,8 @@ Model/View/Controller for vtk_registration.py
 
 Other helper function code
 
-- `amoeba_annealer.py` A general class for downhill simplex originally written by Thomas R. Metcalf and modified to add simulated annealing.
-- `vtkTools.py` A collection of functions for vtk that are used throughout the model, view, and controller.
+- `vtk_registration/src/code/amoeba_annealer.py` A general class for downhill simplex originally written by Thomas R. Metcalf and modified to add simulated annealing.
+- `vtk_registration/src/code/vtkTools.py` A collection of functions for vtk that are used throughout the model, view, and controller.
 
 ```
 vtk_registration/
