@@ -40,6 +40,8 @@ Other files and folders
 - `defaults/objects` various STL files to register
 - `launch/test_dvrk_full.launch` launch file for dVRK
 
+Overall file structure
+
 ```
 defaults/
 ├── Logitech_c920/
