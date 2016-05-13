@@ -1,6 +1,15 @@
 # DaVinci
 This project registers stl's to the daVinci robot using monocular vision
 
+## Compatibility
+
+This project was tested using:
+    python 2.7.11 and 2.7.3
+    vtk 6.3.0 and 5.8.0
+    cv2 2.4.11 and 2.4.9
+    Qt 4.8.7 and 4.8.1
+    PyQt4 4.11.4 and 4.9.1
+
 ## Code overview
 The most important pieces of code are
 
