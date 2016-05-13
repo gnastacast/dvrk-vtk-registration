@@ -1,5 +1,5 @@
 # DaVinci
-This project registers stl's to the daVinci robot using monocular vision
+This project registers stl's to the daVinci robot using monocular vision. It is made to be built in a catkin workspace using catkin build tools
 
 ## Compatibility
 
