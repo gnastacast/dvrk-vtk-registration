@@ -41,25 +41,25 @@ Other files and folders
 - `launch/test_dvrk_full.launch` launch file for dVRK
 
 ```
-├── defaults/
-|   ├── Logitech_c920/
-|   └── objects/
-├── launch/
-|   └── test_dvrk_full.launch - launch file for running dVRK
-├── code/
-│   ├── amoeba_annealer.py
-│   ├── controller.py
-│   ├── model.py
-│   ├── views
-|   │   ├── main_view.py 
-|   │   ├── main_view.ui
-|   │   └── ui_main_view.py
-│   ├── vtk_registration.py
-│   └── vtkTools.py
-├── tools/
-│   ├── camCalibration.py
-│   └── daVinciCalibration.py
-├── CMakeLists.txt
-└── package.xml
+defaults/
+├── Logitech_c920/
+└── objects/
+launch/
+└── test_dvrk_full.launch - launch file for running dVRK
+code/
+├── amoeba_annealer.py
+├── controller.py
+├── model.py
+├── views
+│   ├── main_view.py 
+│   ├── main_view.ui
+│   └── ui_main_view.py
+├── vtk_registration.py
+└── vtkTools.py
+tools/
+├── camCalibration.py
+└── daVinciCalibration.py
+CMakeLists.txt
+package.xml
 ```
 
