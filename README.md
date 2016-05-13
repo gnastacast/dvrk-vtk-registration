@@ -35,10 +35,15 @@ Other helper function code
 - `code/amoeba_annealer.py` A general class for downhill simplex originally written by Thomas R. Metcalf and modified to add simulated annealing.
 - `vtkTools.py` A collection of functions for vtk that are used throughout the model, view, and controller.
 
+Other files and folders
+- `defaults/Logitech_c920` Camera data for logitech webcam including a spec sheet and an intrinsic matrix from OpenCV
+- `defaults/objects` various STL files to register
+- `launch/test_dvrk_full.launch` launch file for dVRK
+
 ```
 ├── defaults/
-|   ├── Logitech_c920/ - Camera data for logitech webcam
-|   └── objects/ - various STL files to register
+|   ├── Logitech_c920/
+|   └── objects/
 ├── launch/
 |   └── test_dvrk_full.launch - launch file for running dVRK
 ├── code/
