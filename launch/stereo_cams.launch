@@ -1,0 +1,41 @@
+<launch>
+  <arg name="width" default="640" />
+  <arg name="height" default="480" />
+  <arg name="fps" default="10" />
+
+  <arg name="frame_left" default="stereo_left_frame" />
+  <arg name="device_left" default="/dev/video0" />
+  <arg name="camera_info_url_left" default="" />
+  <arg name="output_topic_left" default="image_raw" />
+
+  <arg name="frame_right" default="stereo_right_frame" />
+  <arg name="device_right" default="/dev/video1" />
+  <arg name="camera_info_url_right" default="" />
+  <arg name="output_topic_right" default="image_raw" />
+
+  <node ns="stereo/left" pkg="uvc_camera" type="uvc_camera_node" name="uvc_camera_stereo_left">
+    <param name="width" value="$(arg width)" />
+    <param name="height" value="$(arg height)" />
+    <param name="fps" value="$(arg fps)" />
+    <param name="frame_id" value="$(arg frame_left)" />
+    <param name="device" value="$(arg device_left)" />    
+    <param name="camera_info_url" value="$(arg camera_info_url_left)" />
+    <param name="output_topic" value="$(arg output_topic_left)" />
+  </node>
+
+  <node ns="stereo/right" pkg="uvc_camera" type="uvc_camera_node" name="uvc_camera_stereo_right">
+    <param name="width" value="$(arg width)" />
+    <param name="height" value="$(arg height)" />
+    <param name="fps" value="$(arg fps)" />
+    <param name="frame_id" value="$(arg frame_right)" />
+    <param name="device" value="$(arg device_right)" />    
+    <param name="camera_info_url" value="$(arg camera_info_url_right)" />
+    <param name="output_topic" value="$(arg output_topic_right)" />
+  </node>
+
+  <node ns="stereo" pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc" output="screen">
+    <param name="approximate_sync" value="True" />
+    <param name="queue_size" value="10" />
+  </node>
+
+</launch>
