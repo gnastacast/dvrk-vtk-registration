@@ -1,147 +1,51 @@
 <launch>
-  <!-- Hack 
-  set param = true for MTMR-PSM1;
-  set param = false for MTML-PSM2;
-  -->
-  <arg name="foo" default="false"/> 
-  <!--
-  <arg name="virtual_psm_model" default="$(find dvrk_nri_model)/model/virtual_psm.caudier.force.urdf.xacro" />
-  -->
 
-  <!-- if foo = true -->
-  <arg name="mtm_model" default="$(find dvrk_model)/model/mtm_right.urdf.xacro" if="$(arg foo)"/>
-  <arg name="master_type" default="right_" if="$(arg foo)"/> 
-  <arg name="master_name" default="MTMR" if="$(arg foo)"/>
-  <!--<arg name="psm_model" default="$(find dvrk_nri_model)/model/psm_one.caudier.force.urdf.xacro" if="$(arg foo)"/> -->
-  <arg name="psm_model" default="$(find dvrk_model)/model/psm_one.urdf.xacro" if="$(arg foo)"/>
-  <arg name="slave_type" default="one_" if="$(arg foo)"/>
-  <arg name="slave_name" default="PSM1" if="$(arg foo)"/>
+  <arg name="master" default="MTML"/>   
+  <arg name="slave" default="PSM2"/>   
+  <arg name="config" />   
 
-  <!-- if foo = false -->
-  <arg name="mtm_model" default="$(find dvrk_model)/model/mtm_left.urdf.xacro" unless="$(arg foo)"/>
-  <arg name="master_type" default="left_" unless="$(arg foo)"/>
-  <arg name="master_name" default="MTML" unless="$(arg foo)"/>
-  <!--<arg name="psm_model" default="$(find dvrk_nri_model)/model/psm_two.caudier.force.urdf.xacro" unless="$(arg foo)"/> -->
-  <arg name="psm_model" default="$(find dvrk_model)/model/psm_two.urdf.xacro" unless="$(arg foo)"/>
-  <arg name="slave_type" default="two_" unless="$(arg foo)"/>    
-  <arg name="slave_name" default="PSM2" unless="$(arg foo)"/>  
-
-  <!-- dvrk full (one pair) -->
-  <node name="dvrk_nri_full_ros_node"
-        pkg="dvrk_nri_robot"
-        type="dvrk_nri_full_ros"
-        args="-i $(find dvrk_nri_robot)/config/xml-CMU-dVRK/sawRobotIO1394-MTML-30594.xml
-              -p $(find dvrk_nri_robot)/config/sawControllersPID-MTM.xml
-              -k $(find dvrk_nri_robot)/config/dvmtm.rob
-              -I $(find dvrk_nri_robot)/config/xml-CMU-dVRK/sawRobotIO1394-PSM2-28275.xml
-              -P $(find dvrk_nri_robot)/config/sawControllersPID-PSM.xml
-              -K $(find dvrk_nri_robot)/config/dvpsm.rob
-              -n MTML
-              -N PSM2
-              -F $(find dvrk_nri_robot)/config/FT15360Net.xml"
-	output="screen"/>
-  <!-- dvrk mtm + psm -->
-  <!--
-  <node name="dvrk_full_node"
-        pkg="dvrk_robot"
-        type="dvrk_full_ros"
-        args="-j $(find vtk_registration)/config/cmu-left-arms.json"
-        output="screen"/>
- -->
- <!-- MTM -->
-  <group ns="/dvrk_mtm">
-    <arg name="gui" default="false" />
-    <arg name="rate" default="20" />
-    
-    <param name="robot_description"
-           command="rosrun xacro xacro.py $(arg mtm_model)"/>
-    <param name="use_gui" value="$(arg gui)"/>
-    <param name="rate" value="$(arg rate)"/>
-
-    <rosparam>
-      source_list: [/dvrk_mtm/joint_states_robot]
-    </rosparam>
-
-    <!-- sub current robot jnt pos and add names     -->
-    <node name="feedback_mtm_jp" 
-          pkg="dvrk_joint_publisher"
-          type="mtm_joint_publisher.py"
-          args="$(arg master_type)"/>
-
-    <node name="joint_state_publisher_mtm"
-          pkg="joint_state_publisher"
-          type="joint_state_publisher" />
-
-    <node name="robot_state_publisher_mtm"
-        pkg="robot_state_publisher"
-        type="state_publisher" />
-  </group>
-
-  <!-- PSM -->
-  <group ns="/dvrk_psm">
-    <arg name="gui" default="false" />
-    <arg name="rate" default="20" />
-
-    <param name="robot_description" command="rosrun xacro xacro.py $(arg psm_model)"/>
-    <param name="use_gui" value="$(arg gui)"/>
-    <param name="rate" value="$(arg rate)"/>
-
-    <rosparam>
-      source_list: [/dvrk_psm/joint_states_robot]
-    </rosparam>
-
-    <node name="feedback_psm_jp" 
-          pkg="dvrk_joint_publisher"
-          type="psm_joint_publisher.py"
-          args="$(arg slave_type)"/>
-
-    <node name="joint_state_publisher_psm"
-          pkg="joint_state_publisher"
-          type="joint_state_publisher" />
-    
-    <node name="robot_state_publisher_psm"
-    pkg="robot_state_publisher"
-    type="state_publisher" />
-  </group>
-
-  <!-- Virtual PSM -->
-  <!--
-  <group ns="/dvrk_virtual_psm">
-    <arg name="gui" default="false" />
-    <arg name="rate" default="20" />
-
-    <param name="robot_description" command="rosrun xacro xacro.py $(arg virtual_psm_model)"/>
-    <param name="use_gui" value="$(arg gui)"/>
-    <param name="rate" value="$(arg rate)"/>
-
-    <rosparam>
-      source_list: [/dvrk_virtual_psm/joint_states_robot]
-    </rosparam>
-
-    <node name="feedback_psm_jp" 
-          pkg="dvrk_nri_joint_publisher"
-          type="virtual_psm_joint_publisher.py"
-          args="virtual_"/>
-
-    <node name="joint_state_publisher_virtual_psm"
-          pkg="joint_state_publisher"
-          type="joint_state_publisher" />
-    
-    <node name="robot_state_publisher_psm"
-    pkg="robot_state_publisher"
-    type="state_publisher" />
-  </group>
-  -->
+  <arg name="master_model" default="$(find dvrk_model)/model/$(arg master).urdf.xacro" />
+  <arg name="slave_model" default="$(find dvrk_model)/model/$(arg slave).urdf.xacro" />
   
-  <!-- Rviz -->
+  <node name="dvrk_$(arg master)_$(arg slave)_node"
+        pkg="dvrk_robot"
+        type="dvrk_console_json"        
+        args="-j $(arg config)"                     
+        output="screen"/>
+
+  <group ns="/dvrk/$(arg master)">
+      <arg name="gui" default="false" />
+      <arg name="rate" default="20" />
+      
+      <param name="robot_description" command="rosrun xacro xacro.py $(arg master_model) prefix:=$(arg master)_"/>
+      <param name="use_gui" value="$(arg gui)"/>
+      <param name="rate" value="$(arg rate)"/>
+      
+      <rosparam param="source_list" subst_value="True">
+        [/dvrk/$(arg master)/state_joint_current]
+      </rosparam>
+
+      <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+      <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  </group>
+
+  <group ns="/dvrk/$(arg slave)">
+      <arg name="gui" default="false" />
+      <arg name="rate" default="20" />
+      
+      <param name="robot_description" command="rosrun xacro xacro.py $(arg slave_model) prefix:=$(arg slave)_"/>
+      <param name="use_gui" value="$(arg gui)"/>
+      <param name="rate" value="$(arg rate)"/>
+      
+      <rosparam param="source_list" subst_value="True">
+        [/dvrk/$(arg slave)/state_joint_current]
+      </rosparam>
+
+      <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+      <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  </group>
+
   <node name="rviz" pkg="rviz" type="rviz"
-  args="-d $(find dvrk_nri_model)/rviz_config/mtm_psm_rviz.rviz" />
-  <!--
-  <node name="vf_display_node" 
-          pkg="dvrk_nri_robot"
-          type="vfMeshRviz.py"
-          args="$(arg master_type) $(arg slave_type)"
-          output="screen"/>
-  -->
+     args="-d $(find dvrk_model)/rviz_config/$(arg master)-$(arg slave).rviz" />
 
 </launch>
