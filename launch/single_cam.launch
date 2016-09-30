@@ -1,13 +1,15 @@
 <launch>
-  <arg name="width" default="640" />
-  <arg name="height" default="480" />
+  <arg name="width" default="1280" />
+  <arg name="height" default="960" />
   <arg name="fps" default="10" />
-  <arg name="frame" default="camera0_frame" />
+  <arg name="frame" default="camera_frame" />
   <arg name="device" default="/dev/video0" />
-  <arg name="camera_info_url" default="file://$(find uvc_camera)/example.yaml" />
+  <arg name="camera_info_url" default="file://$(find dvrk_vtk_registration)/defaults/single_cam_calibration.yaml" />
+  <arg name="camera_registration_url" default="file://$(find dvrk_camera)/defaults/single_cam_registration.cpp" />
   <arg name="output_topic" default="image_raw" />
+  <arg name="namespace" default="camera" />
 
-  <node ns="camera0" pkg="uvc_camera" type="uvc_camera_node" name="uvc_camera" output="screen">
+  <node ns="$(arg namespace)" pkg="uvc_camera" type="uvc_camera_node" name="uvc_camera" output="screen">
     <param name="width" value="$(arg width)" />
     <param name="height" value="$(arg height)" />
     <param name="fps" value="$(arg fps)" />
@@ -17,6 +19,14 @@
     <param name="output_topic" value="$(arg output_topic)" />
   </node>
 
-   <node pkg="tf2_ros" type="static_transform_publisher" name="cam_tf_publisher" args="0 0 0 0 0 0  map camera0_frame  100"/>
+  <!-- Color rectified image -->
+  <node ns="$(arg namespace)" pkg="image_proc" type="image_proc" name="image_proc" />  
+
+  <node ns="$(arg namespace)" pkg="dvrk_camera" type="camera_registration" name="camera_registration" output="screen" >
+    <param name="registration_file" value="$(arg camera_registration_url)"/>
+  </node>
+
+  <!-- Camera transform publisher -->
+  <node pkg="tf" type="static_transform_publisher" name="cam_tf_publisher" args="0.0 0.0 0.0 0.0 0.0 0.0  world camera_frame 100"/>
 
 </launch>

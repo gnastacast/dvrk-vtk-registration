@@ -302,7 +302,7 @@ if __name__ == '__main__':
     parser.add_argument('--height', help='Number of inner corners along the height of board. Default is 6',
                         type = int, default = 6)
     parser.add_argument('-c', '--calibration', help='json file containing camera calibration from openCV',
-                        type = str, default = filepath+'/../defaults/Logitech_c920/singleCam.json')
+                        type = str, default = filepath+'/../launch/single_cam_calibration.yaml')
     args, unknown = parser.parse_known_args()
 
     board_w = args.width

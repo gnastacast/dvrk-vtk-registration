@@ -1,0 +1,14 @@
+// CALIBRATE SINGLE CAM
+rosrun camera_calibration cameracalibrator.py --size 8x9 --square 0.01 image:=/camera/image_raw camera:=/camera0 --fix-principal-point --fix-aspect-ratio
+// CALIBRATE STEREO CAMS
+rosrun camera_calibration cameracalibrator.py --size 8x9 --square 0.01 right:=/stereo/right/image_raw left:=/stereo/left/image_raw left_camera:=/stereo/left right_camera:=/stereo/right --approximate=0.01 --fix-principal-point --fix-aspect-ratio
+
+// FIX OUT OF MEMORY USB (two cameras)
+sudo rmmod uvcvideo
+sudo modprobe uvcvideo quirks=128
+
+// FOR CONFIGURING STEREO
+rosrun image_view stereo_view _approximate_sync:=True image:=image_rect_color
+rosrun rqt_reconfigure rqt_reconfigure
+// FOR SAVING STEREO CONFIG
+rosrun dynamic_reconfigure dynparam dump /stereo/stereo_image_proc
